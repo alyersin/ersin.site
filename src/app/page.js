@@ -2,10 +2,12 @@
 
 import { Box, Heading, Text, VStack } from "@chakra-ui/react";
 import ConnectingDots from "../components/ui/Effects/ConnectingDots";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import StyledBtn_3 from "@/components/ui/StyledBtn_3";
 import { useRef } from "react";
 import MonitorToggle from "@/components/ui/MonitorToggle";
+import HamburgerMenu from "@/components/ui/HamburgerMenu";
+import StyledHamburger from "@/components/ui/StyledHamburger";
 
 export default function Home() {
   const homeRef = useRef(null);
@@ -27,6 +29,11 @@ export default function Home() {
       overflowX="auto"
       scrollBehavior="smooth"
     >
+      <Box position="absolute" top="4rem" left="2rem" zIndex="10">
+        {/* <HamburgerMenu /> */}
+        <StyledHamburger />
+      </Box>
+
       {/* HOME SECTION */}
       <Box
         ref={homeRef}
@@ -62,7 +69,7 @@ export default function Home() {
           <StyledBtn_3
             text="View my work"
             onClick={scrollToWork}
-            icon={<ChevronDownIcon />}
+            icon={<ChevronRightIcon />}
           />
         </VStack>
       </Box>
