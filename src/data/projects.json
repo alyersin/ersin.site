@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "title": "E-Commerce app PRODUCTION BUILD",
+    "frontImage": "/assets/projects/coffee-shop01.avif",
+    "backImage": "/assets/projects/backImage-2.avif",
+    "frontHref": "https://cafe-prestigeapp-git-main-alyersins-projects.vercel.app/",
+    "backHref": "https://github.com/alyersin/coffee-shop-app"
+  },
+  {
+    "id": 2,
+    "title": "URBAN-EDGE - DESIGN ONLY",
+    "frontImage": "/assets/projects/urban-edge.avif",
+    "backImage": "/assets/projects/backImage-2.avif",
+    "frontHref": "https://urban-edge-rho.vercel.app/",
+    "backHref": "https://github.com/alyersin/UrbanEdge-Online-Store-NEXTJS"
+  },
+  { 
+    "id": 3,
+    "title": "SAO-MARCO-PIZZA - DESIGN ONLY",
+    "frontImage": "/assets/projects/sao-marco-pizza.avif",
+    "backImage": "/assets/projects/backImage-2.avif",
+    "frontHref": "https://sao-marco-pizza.vercel.app/",
+    "backHref": "https://github.com/alyersin/Sao-Marco-pizza"
+  },
+  {
+    "id": 4,
+    "title": "TECH-BLOG - DESIGN ONLY",
+    "frontImage": "/assets/projects/techblog.avif",
+    "backImage": "/assets/projects/backImage-2.avif",
+    "frontHref": "https://tech-blog-alpha-fawn.vercel.app/",
+    "backHref": "https://github.com/alyersin/TechBlog-NextJS.git"
+  },
+  {
+    "id": 5,
+    "title": "CAREER-SKETCH - DESIGN ONLY",
+    "frontImage": "/assets/projects/career-sketch.avif",
+    "backImage": "/assets/projects/backImage-2.avif",
+    "frontHref": "https://career-sketch.vercel.app/",
+    "backHref": "https://github.com/alyersin/career-sketch.git"
+  },
+
+  {
+    "id": 7,
+    "title": "Coming Soon",
+    "frontImage": "/assets/projects/frontImage-1.jpg",
+    "backImage": "/assets/projects/backImage-5.avif",
+    "frontHref": "",
+    "backHref": ""
+  },
+  {
+    "id": 8,
+    "title": "Coming Soon",
+    "frontImage": "/assets/projects/frontImage-1.jpg",
+    "backImage": "/assets/projects/backImage-5.avif",
+    "frontHref": "",
+    "backHref": ""
+  }
+]
