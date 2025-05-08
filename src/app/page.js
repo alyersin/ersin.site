@@ -130,32 +130,48 @@ export default function Home() {
           px={8}
           py={20}
         >
-          <Dots />
-          <SimpleGrid columns={[1, 2, 3]} spacing={6} p={8}>
-            <Card
-              title="Next.js Projects"
-              description="Build blazing-fast web apps using Next.js."
-              image="https://source.unsplash.com/random/300x200?nextjs"
-              link="https://nextjs.org"
-              buttonText="Explore"
-            />
-            <Card
-              title="My Portfolio"
-              description="Check out my personal and freelance projects."
-              image="https://source.unsplash.com/random/300x200?developer"
-              link="/portfolio"
-              bg="purple.700"
-              shadow="2xl"
-            />
-            <Card
-              title="Contact Me"
-              description="Have a project in mind? Let's talk!"
-              image="https://source.unsplash.com/random/300x200?contact"
-              link="/contact"
-              color="black"
-              bg="yellow.300"
-            />
-          </SimpleGrid>
+          {/* <Dots /> */}
+
+          <Box position="relative" zIndex={2}>
+            <SimpleGrid columns={[1, 2, 3]} spacing={6} p={8}>
+              <Card
+                title="E-Commerce app PRODUCTION BUILD"
+                image="/assets/projects/coffee-shop01.avif"
+                link="https://cafe-prestigeapp-git-main-alyersins-projects.vercel.app/"
+                buttonText="Live Site"
+                bg="purple.700"
+                shadow="lg"
+              />
+              <Card
+                title="URBAN-EDGE - DESIGN ONLY"
+                image="/assets/projects/urban-edge.avif"
+                link="https://urban-edge-rho.vercel.app/"
+                buttonText="Preview"
+                bg="gray.800"
+              />
+              <Card
+                title="SAO-MARCO-PIZZA - DESIGN ONLY"
+                image="/assets/projects/sao-marco-pizza.avif"
+                link="https://sao-marco-pizza.vercel.app/"
+                buttonText="See Live"
+                bg="red.600"
+              />
+              <Card
+                title="TECH-BLOG - DESIGN ONLY"
+                image="/assets/projects/techblog.avif"
+                link="https://tech-blog-alpha-fawn.vercel.app/"
+                buttonText="Visit"
+                bg="teal.700"
+              />
+              <Card
+                title="CAREER-SKETCH - DESIGN ONLY"
+                image="/assets/projects/career-sketch.avif"
+                link="https://career-sketch.vercel.app/"
+                buttonText="Open"
+                bg="blue.600"
+              />
+            </SimpleGrid>
+          </Box>
         </Box>
       )}
     </Box>
