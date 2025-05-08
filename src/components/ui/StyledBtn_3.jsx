@@ -18,9 +18,9 @@ const StyledWrapper = styled.div`
     --enhanced-glow-color: rgb(231, 206, 255);
     --btn-color: rgb(100, 61, 136);
     border: 0.25em solid var(--glow-color);
-    padding: 1em 3em;
+    padding: 0.8em 2em;
     color: var(--glow-color);
-    font-size: 15px;
+    font-size: 1rem;
     font-weight: bold;
     background-color: var(--btn-color);
     border-radius: 1em;
@@ -31,6 +31,9 @@ const StyledWrapper = styled.div`
     text-shadow: 0 0 0.5em var(--glow-color);
     position: relative;
     transition: all 0.3s;
+    white-space: nowrap;
+    max-width: 90vw;
+    width: fit-content;
   }
 
   button::after {
@@ -59,5 +62,20 @@ const StyledWrapper = styled.div`
     box-shadow: 0 0 0.6em 0.25em var(--glow-color),
       0 0 2.5em 2em var(--glow-spread-color),
       inset 0 0 0.5em 0.25em var(--glow-color);
+  }
+
+  /* ✅ Add media queries for responsiveness */
+  @media (max-width: 768px) {
+    button {
+      padding: 0.6em 1.4em;
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    button {
+      padding: 0.5em 1em;
+      font-size: 0.9rem;
+    }
   }
 `;

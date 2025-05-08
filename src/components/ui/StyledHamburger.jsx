@@ -24,30 +24,29 @@ export default function StyledHamburger() {
           <span className="lines line-3" />
         </label>
 
-        {/* Menu items */}
         <a href="#" className="menu-item blue">
           <i className="fa fa-anchor" />
-          <span className="item-label">Anchor</span>
+          <span className="item-label">Blog</span>
         </a>
         <a href="#" className="menu-item green">
           <i className="fa fa-coffee" />
-          <span className="item-label">Coffee</span>
+          <span className="item-label">Tech stack</span>
         </a>
         <a href="#" className="menu-item red">
           <i className="fa fa-heart" />
-          <span className="item-label">Love</span>
+          <span className="item-label">Contact</span>
         </a>
         <a href="#" className="menu-item purple">
           <i className="fa fa-microphone" />
-          <span className="item-label">Mic</span>
+          <span className="item-label">LinkedIn</span>
         </a>
         <a href="#" className="menu-item orange">
           <i className="fa fa-star" />
-          <span className="item-label">Star</span>
+          <span className="item-label">GitHub</span>
         </a>
         <a href="#" className="menu-item lightblue">
           <i className="fa fa-diamond" />
-          <span className="item-label">Gem</span>
+          <span className="item-label">Projects</span>
         </a>
       </nav>
     </StyledWrapper>
@@ -55,6 +54,12 @@ export default function StyledHamburger() {
 }
 
 const StyledWrapper = styled.div`
+  &:not(.open) .menu-item {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
   .menu {
     position: absolute;
     top: 6rem;
@@ -118,6 +123,29 @@ const StyledWrapper = styled.div`
     font-size: 10px;
     text-align: center;
     transition: transform 0.3s ease;
+  }
+
+  .menu-item {
+    background: radial-gradient(
+      circle,
+      rgba(100, 61, 136, 0.8),
+      rgba(0, 0, 0, 0.8)
+    );
+    border: 1px solid rgba(217, 176, 255, 0.3);
+    box-shadow: 0 0 15px rgba(217, 176, 255, 0.5),
+      0 0 30px rgba(191, 123, 255, 0.3), inset 0 0 10px rgba(217, 176, 255, 0.4);
+    color: white;
+    text-shadow: 0 0 5px rgba(217, 176, 255, 0.8);
+    font-weight: bold;
+    font-size: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4),
+      0 0 25px rgba(217, 176, 255, 0.5);
+    color: #fff;
   }
 
   .menu-open {
