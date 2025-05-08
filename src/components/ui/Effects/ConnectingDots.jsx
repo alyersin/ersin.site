@@ -154,16 +154,17 @@ export default function ConnectingDots() {
 
   return (
     <>
-      <canvas ref={canvasRef} className="background-canvas" />
+      <canvas ref={canvasRef} className="connecting-dots-canvas" />
       <style jsx>{`
-        .background-canvas {
+        .connecting-dots-canvas {
           position: fixed;
           top: 0;
           left: 0;
           z-index: -1;
-          width: 100%;
-          height: 100%;
+          width: 100vw;
+          height: 100vh;
           background: #1a1a1a;
+          pointer-events: none;
         }
       `}</style>
     </>
