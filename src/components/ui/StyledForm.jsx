@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Form() {
+export default function StyledForm() {
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div className="grid gap-8">

@@ -9,12 +9,15 @@ import StyledHamburger from "@/components/ui/StyledHamburger";
 import { useState, useEffect, useRef } from "react";
 import Card from "@/components/ui/Card";
 import Dots from "@/components/ui/Effects/Dots";
+import StyledForm from "@/components/ui/StyledForm";
+import StyledForm_2 from "@/components/ui/StyledForm_2";
 
 export default function Home() {
   const homeRef = useRef(null);
   const workRef = useRef(null);
   const mobileWorkRef = useRef(null);
   const [isLargeScreen, setIsLargeScreen] = useState(true);
+  const formRef = useRef(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 968px)");
@@ -132,7 +135,7 @@ export default function Home() {
         >
           {/* <Dots /> */}
 
-          <Box position="relative" zIndex={2}>
+          <VStack spacing={8} position="relative" zIndex={2} width="100%">
             <SimpleGrid columns={[1, 2, 3]} spacing={6} p={8}>
               <Card
                 title="E-Commerce app PRODUCTION BUILD"
@@ -171,7 +174,9 @@ export default function Home() {
                 bg="blue.600"
               />
             </SimpleGrid>
-          </Box>
+
+            <StyledForm_2 ref={formRef} />
+          </VStack>
         </Box>
       )}
     </Box>

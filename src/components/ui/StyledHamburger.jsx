@@ -24,29 +24,59 @@ export default function StyledHamburger() {
           <span className="lines line-3" />
         </label>
 
-        <a href="#" className="menu-item blue">
+        <a
+          href="#"
+          className="menu-item blue"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <i className="fa fa-anchor" />
           <span className="item-label">Blog</span>
         </a>
-        <a href="#" className="menu-item green">
+        <a
+          href="#"
+          className="menu-item green"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <i className="fa fa-coffee" />
           <span className="item-label">Tech stack</span>
         </a>
-        <a href="#" className="menu-item red">
+        <a
+          href="#"
+          className="menu-item red"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <i className="fa fa-heart" />
           <span className="item-label">Contact</span>
         </a>
-        <a href="#" className="menu-item purple">
+        <a
+          href="https://www.linkedin.com/in/ersin-ali-228301107/"
+          className="menu-item purple"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <i className="fa fa-microphone" />
           <span className="item-label">LinkedIn</span>
         </a>
-        <a href="#" className="menu-item orange">
+        <a
+          href="https://github.com/alyersin"
+          className="menu-item orange"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <i className="fa fa-star" />
           <span className="item-label">GitHub</span>
         </a>
-        <a href="#" className="menu-item lightblue">
+        <a
+          href="https://www.facebook.com/aly.ersin"
+          className="menu-item lightblue"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <i className="fa fa-diamond" />
-          <span className="item-label">Projects</span>
+          <span className="item-label">Facebook</span>
         </a>
       </nav>
     </StyledWrapper>
