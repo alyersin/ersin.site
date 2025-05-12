@@ -109,7 +109,7 @@ export default function Home() {
             px={4}
           >
             <Heading fontSize={["2xl", "4xl", "5xl"]} color="white">
-              Hello, I'm{" "}
+              Hello, I&apos;m{" "}
               <Box as="span" color="purple.300">
                 Ersin
               </Box>
