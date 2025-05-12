@@ -1,6 +1,16 @@
 "use client";
 
-import { Box, Heading, Text, VStack, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Text,
+  VStack,
+  SimpleGrid,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  useDisclosure,
+} from "@chakra-ui/react";
 import ConnectingDots from "../components/ui/Effects/ConnectingDots";
 import { ChevronRightIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import StyledBtn_3 from "@/components/ui/StyledBtn_3";
@@ -8,8 +18,6 @@ import MonitorToggle from "@/components/ui/MonitorToggle";
 import StyledHamburger from "@/components/ui/StyledHamburger";
 import { useState, useEffect, useRef } from "react";
 import Card from "@/components/ui/Card";
-import Dots from "@/components/ui/Effects/Dots";
-import StyledForm from "@/components/ui/StyledForm";
 import StyledForm_2 from "@/components/ui/StyledForm_2";
 
 export default function Home() {
@@ -17,7 +25,8 @@ export default function Home() {
   const workRef = useRef(null);
   const mobileWorkRef = useRef(null);
   const [isLargeScreen, setIsLargeScreen] = useState(true);
-  const formRef = useRef(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 968px)");
@@ -26,6 +35,11 @@ export default function Home() {
     mediaQuery.addEventListener("change", handler);
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
+
+  const openModalAndCloseMenu = () => {
+    setIsMenuOpen(false);
+    onOpen();
+  };
 
   const scrollToWork = () => {
     if (isLargeScreen) {
@@ -41,19 +55,40 @@ export default function Home() {
 
   return (
     <Box width="100vw" height="auto" overflow="hidden" scrollBehavior="smooth">
-      {/* HORIZONTAL SCROLL (ONLY ON DESKTOP) */}
+      {/* Modal with StyledForm_2 */}
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent
+          bg="transparent"
+          boxShadow="none"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StyledForm_2 />
+        </ModalContent>
+      </Modal>
+
       <Box
         display="flex"
         flexDirection={isLargeScreen ? "row" : "column"}
         width={isLargeScreen ? "200vw" : "100vw"}
         height="100%"
       >
-        {/* Hamburger */}
-        <Box position="absolute" top="4rem" left="2rem" zIndex="10">
-          <StyledHamburger />
+        <Box
+          position="fixed"
+          top={["4rem", "2rem", "4rem"]}
+          left={["10%", "50%", "2rem"]}
+          transform={["translateX(-50%)", "translateX(-50%)", "none"]}
+          zIndex="1000"
+        >
+          <StyledHamburger
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            onContactClick={openModalAndCloseMenu}
+          />
         </Box>
 
-        {/* HOME SECTION */}
         <Box
           ref={homeRef}
           position="relative"
@@ -74,17 +109,15 @@ export default function Home() {
             px={4}
           >
             <Heading fontSize={["2xl", "4xl", "5xl"]} color="white">
-              Hello, I&apos;m{" "}
+              Hello, I'm{" "}
               <Box as="span" color="purple.300">
                 Ersin
               </Box>
               .
             </Heading>
-
             <Text fontSize={["md", "lg", "xl"]} color="white">
               Web Developer
             </Text>
-
             <StyledBtn_3
               text="View my work"
               onClick={scrollToWork}
@@ -93,7 +126,6 @@ export default function Home() {
           </VStack>
         </Box>
 
-        {/* DESKTOP WORK SECTION */}
         {isLargeScreen && (
           <Box
             ref={workRef}
@@ -109,7 +141,7 @@ export default function Home() {
           </Box>
         )}
       </Box>
-      {/* TRANSITION BAR */}
+
       {!isLargeScreen && (
         <Box
           height="6px"
@@ -119,22 +151,16 @@ export default function Home() {
         />
       )}
 
-      {/* MOBILE WORK SECTION */}
       {!isLargeScreen && (
         <Box
           ref={mobileWorkRef}
           width="100%"
-          // minHeight="100vh"
           display="flex"
-          // flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          // bg="gray.900"
           px={8}
           py={20}
         >
-          {/* <Dots /> */}
-
           <VStack spacing={8} position="relative" zIndex={2} width="100%">
             <SimpleGrid columns={[1, 2, 3]} spacing={6} p={8}>
               <Card
@@ -175,7 +201,7 @@ export default function Home() {
               />
             </SimpleGrid>
 
-            <StyledForm_2 ref={formRef} />
+            {/* <StyledForm_2 /> */}
           </VStack>
         </Box>
       )}

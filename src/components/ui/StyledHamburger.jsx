@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-export default function StyledHamburger() {
+export default function StyledHamburger({ onContactClick, closeMenu }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleContactClick = () => {
+    onContactClick();
+    setIsMenuOpen(false);
   };
 
   return (
@@ -45,8 +50,11 @@ export default function StyledHamburger() {
         <a
           href="#"
           className="menu-item red"
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={(e) => {
+            e.preventDefault();
+            closeMenu?.();
+            onContactClick?.();
+          }}
         >
           <i className="fa fa-heart" />
           <span className="item-label">Contact</span>

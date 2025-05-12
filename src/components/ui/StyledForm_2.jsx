@@ -7,11 +7,11 @@ export default function StyledForm_2() {
       <div className="form-container">
         <form className="form">
           <div className="form-group">
-            <label htmlFor="email">Company Email</label>
+            <label htmlFor="email">Your Email</label>
             <input type="text" id="email" name="email" required />
           </div>
           <div className="form-group">
-            <label htmlFor="textarea">How Can We Help You?</label>
+            <label htmlFor="textarea">Message</label>
             <textarea
               name="textarea"
               id="textarea"
