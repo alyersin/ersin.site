@@ -156,11 +156,34 @@ export default function Home() {
           ref={mobileWorkRef}
           width="100%"
           display="flex"
+          flexDirection="column"
           alignItems="center"
           justifyContent="center"
           px={8}
-          py={20}
+          pt={4}
+          pb={8}
         >
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            bg="whiteAlpha.200"
+            borderRadius="md"
+            px={4}
+            py={2}
+            width="fit-content"
+            mx="auto"
+          >
+            <Box
+              as={require("@chakra-ui/icons").InfoOutlineIcon}
+              color="purple.200"
+              // boxSize={5}
+              mr={2}
+            />
+            <Text color="purple.100" fontStyle="italic" fontSize="xs">
+              Best viewed on desktop
+            </Text>
+          </Box>
           <VStack spacing={8} position="relative" zIndex={2} width="100%">
             <SimpleGrid columns={[1, 2, 3]} spacing={6} p={8}>
               <Card

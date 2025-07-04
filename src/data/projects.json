@@ -25,28 +25,28 @@
   },
   {
     "id": 4,
-    "title": "TECH-BLOG - DESIGN ONLY",
-    "frontImage": "/assets/projects/techblog.avif",
+    "title": "MCS-Workload platform",
+    "frontImage": "/assets/projects/mcs-workload.png",
     "backImage": "/assets/projects/backImage-2.avif",
-    "frontHref": "https://tech-blog-alpha-fawn.vercel.app/",
-    "backHref": "https://github.com/alyersin/TechBlog-NextJS.git"
+    "frontHref": "https://mcs-workload.vercel.app/",
+    "backHref": "https://github.com/alyersin/MCS-Workload.git"
   },
   {
     "id": 5,
     "title": "CAREER-SKETCH - DESIGN ONLY",
     "frontImage": "/assets/projects/career-sketch.avif",
-    "backImage": "/assets/projects/backImage-2.avif",
+    "backImage": "/assets/projects/backImage-2.avif",  
     "frontHref": "https://career-sketch.vercel.app/",
     "backHref": "https://github.com/alyersin/career-sketch.git"
   },
 
   {
     "id": 7,
-    "title": "Coming Soon",
-    "frontImage": "/assets/projects/frontImage-1.jpg",
-    "backImage": "/assets/projects/backImage-5.avif",
-    "frontHref": "",
-    "backHref": ""
+    "title": "TECH-BLOG - DESIGN ONLY",
+    "frontImage": "/assets/projects/techblog.avif",
+    "backImage": "/assets/projects/backImage-2.avif",
+    "frontHref": "https://tech-blog-alpha-fawn.vercel.app/",
+    "backHref": "https://github.com/alyersin/TechBlog-NextJS.git"
   },
   {
     "id": 8,

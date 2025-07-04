@@ -203,12 +203,12 @@ export default function AccordionCards() {
           isOpen={activeCard === card.id}
           placement="top"
           hasArrow
-          bg="rgba(15, 23, 42, 0.85)" // dark background with opacity
-          color="#00e0ff" // neon blue text
+          bg="rgba(15, 23, 42, 0.85)"
+          color="#00e0ff"
           border="1px solid #00e0ff"
           borderRadius="md"
-          boxShadow="0 0 12px rgba(0, 224, 255, 0.6)" // glowing effect with transparency
-          backdropFilter="blur(4px)" // subtle glass effect
+          boxShadow="0 0 12px rgba(0, 224, 255, 0.6)"
+          backdropFilter="blur(4px)"
           sx={{
             animation:
               activeCard === card.id

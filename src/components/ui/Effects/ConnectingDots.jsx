@@ -19,8 +19,10 @@ export default function ConnectingDots() {
     const revealRadius = 300;
     const maxDotDistance = 150;
 
-    const getDotCount = () =>
-      Math.floor((window.innerWidth * window.innerHeight) / 4000);
+    const getDotCount = () => {
+      const count = Math.floor((window.innerWidth * window.innerHeight) / 8000);
+      return Math.max(200, Math.min(count, 3000));
+    };
 
     const getRandomColor = () => {
       const lightRed = `rgba(255, ${Math.floor(
@@ -74,7 +76,7 @@ export default function ConnectingDots() {
         ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
         ctx.fillStyle = dot.color;
         ctx.fill();
-        ctx.globalAlpha = 1; // reset
+        ctx.globalAlpha = 1;
       });
 
       if (mouse.x !== null && mouse.y !== null) {
