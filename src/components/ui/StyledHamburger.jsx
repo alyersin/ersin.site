@@ -1,11 +1,38 @@
+import Image from "next/image";
 import React, { useState } from "react";
 import styled from "styled-components";
 
 export default function StyledHamburger({ onContactClick, closeMenu }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [techStackActive, setTechStackActive] = useState(false);
+  const [activeSubTech, setActiveSubTech] = useState(null); // null or 0-3
+  const [activeTechImage, setActiveTechImage] = useState(null); // store selected tech image
 
   const handleToggle = () => {
-    setIsOpen(!isOpen);
+    if (activeSubTech !== null) {
+      setActiveSubTech(null);
+    } else if (techStackActive) {
+      setTechStackActive(false);
+    } else {
+      setIsOpen(!isOpen);
+    }
+  };
+
+  const handleTechStackClick = (e) => {
+    e.preventDefault();
+    setTechStackActive(true);
+  };
+
+  const handleSubTechClick = (idx, img) => (e) => {
+    e.preventDefault();
+    setActiveSubTech(idx);
+    setActiveTechImage(img);
+  };
+
+  const handleSubTechCenterClick = (e) => {
+    e.preventDefault();
+    setActiveSubTech(null);
+    setActiveTechImage(null);
   };
 
   const handleContactClick = () => {
@@ -14,13 +41,17 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
   };
 
   return (
-    <StyledWrapper className={isOpen ? "open" : ""}>
+    <StyledWrapper
+      className={
+        isOpen || techStackActive || activeSubTech !== null ? "open" : ""
+      }
+    >
       <nav className="menu">
         <input
           type="checkbox"
           id="menu-open"
           className="menu-open"
-          checked={isOpen}
+          checked={isOpen || techStackActive || activeSubTech !== null}
           onChange={handleToggle}
         />
         <label className="menu-open-button" htmlFor="menu-open">
@@ -28,54 +59,125 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
           <span className="lines line-2" />
           <span className="lines line-3" />
         </label>
-
-        <a href="#" className="menu-item blue" rel="noopener noreferrer">
-          <i className="fa fa-anchor" />
-          <span className="item-label">Blog</span>
-        </a>
-        <a href="#" className="menu-item green" rel="noopener noreferrer">
-          <i className="fa fa-coffee" />
-          <span className="item-label">Tech stack</span>
-        </a>
-        <a
-          href="#"
-          className="menu-item red"
-          onClick={(e) => {
-            e.preventDefault();
-            closeMenu?.();
-            onContactClick?.();
-          }}
-        >
-          <i className="fa fa-heart" />
-          <span className="item-label">Contact</span>
-        </a>
-        <a
-          href="https://www.linkedin.com/in/ersin-ali-228301107/"
-          className="menu-item purple"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <i className="fa fa-microphone" />
-          <span className="item-label">LinkedIn</span>
-        </a>
-        <a
-          href="https://github.com/alyersin"
-          className="menu-item orange"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <i className="fa fa-star" />
-          <span className="item-label">GitHub</span>
-        </a>
-        <a
-          href="https://www.facebook.com/aly.ersin"
-          className="menu-item lightblue"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <i className="fa fa-diamond" />
-          <span className="item-label">Facebook</span>
-        </a>
+        {activeSubTech !== null ? (
+          <>
+            <a
+              href="#"
+              className="menu-item techstack-center"
+              style={{ zIndex: 3 }}
+              onClick={handleSubTechCenterClick}
+            >
+              {activeTechImage ? (
+                <Image
+                  src={activeTechImage.src}
+                  alt={activeTechImage.alt}
+                  width={50}
+                  height={50}
+                  style={{
+                    objectFit: "contain",
+                    maxWidth: "80%",
+                    maxHeight: "80%",
+                  }}
+                />
+              ) : (
+                <span className="item-label">Icon {activeSubTech + 1}</span>
+              )}
+            </a>
+            {[0, 1, 2, 3, 4, 5].map((idx) => (
+              <div
+                key={idx}
+                className={`subtech-circle subtech-circle-${idx + 1}`}
+              >
+                <span className="techstack-icon">Sub {idx + 1}</span>
+              </div>
+            ))}
+          </>
+        ) : techStackActive ? (
+          <>
+            <a
+              href="#"
+              className="menu-item techstack-center"
+              style={{ zIndex: 3 }}
+              onClick={(e) => {
+                e.preventDefault();
+                setTechStackActive(false);
+              }}
+            >
+              <span className="item-label">Tech stack</span>
+            </a>
+            {[
+              { src: "/assets/techstack/frontend.png", alt: "React" },
+              { src: "/assets/techstack/backend.png", alt: "Node.js" },
+              { src: "/assets/techstack/database.png", alt: "Next.js" },
+              { src: "/assets/techstack/server.png", alt: "Bootstrap" },
+            ].map((img, idx) => (
+              <div
+                key={idx}
+                className={`techstack-circle techstack-circle-${idx + 1}`}
+                onClick={handleSubTechClick(idx, img)}
+                style={{ cursor: "pointer" }}
+              >
+                <Image src={img.src} alt={img.alt} width={70} height={32} />
+                {/* <span className="techstack-icon">{img.alt}</span> */}
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <a href="#" className="menu-item blue" rel="noopener noreferrer">
+              <i className="fa fa-anchor" />
+              <span className="item-label">Blog</span>
+            </a>
+            <a
+              href="#"
+              className="menu-item green"
+              rel="noopener noreferrer"
+              onClick={handleTechStackClick}
+            >
+              <i className="fa fa-coffee" />
+              <span className="item-label">Tech stack</span>
+            </a>
+            <a
+              href="#"
+              className="menu-item red"
+              onClick={(e) => {
+                e.preventDefault();
+                closeMenu?.();
+                onContactClick?.();
+              }}
+            >
+              <i className="fa fa-heart" />
+              <span className="item-label">Contact</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/ersin-ali-228301107/"
+              className="menu-item purple"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="fa fa-microphone" />
+              <span className="item-label">LinkedIn</span>
+            </a>
+            <a
+              href="https://github.com/alyersin"
+              className="menu-item orange"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="fa fa-star" />
+              <span className="item-label">GitHub</span>
+            </a>
+            <a
+              href="https://www.facebook.com/aly.ersin"
+              className="menu-item lightblue"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="fa fa-diamond" />
+              <span className="item-label">Facebook</span>
+            </a>
+          </>
+        )}
       </nav>
     </StyledWrapper>
   );
@@ -444,5 +546,105 @@ const StyledWrapper = styled.div`
 
   .credit a:hover {
     text-decoration: underline;
+  }
+
+  .techstack-center {
+    position: absolute;
+    top: 130%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #70cc72;
+    z-index: 4;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    box-shadow: 0 0 30px rgba(100, 255, 100, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: normal;
+    overflow: hidden;
+  }
+  .techstack-circle {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #fff;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(100, 255, 100, 0.2);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+  }
+  .techstack-icon {
+    /* Placeholder for icon */
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
+  }
+  /* Position 4 circles around the center using polar coordinates */
+  .techstack-circle-1 {
+    transform: translate(-50%, -50%) rotate(0deg) translate(90px) rotate(0deg);
+  }
+  .techstack-circle-2 {
+    transform: translate(-50%, -50%) rotate(90deg) translate(90px)
+      rotate(-90deg);
+  }
+  .techstack-circle-3 {
+    transform: translate(-50%, -50%) rotate(180deg) translate(90px)
+      rotate(-180deg);
+  }
+  .techstack-circle-4 {
+    transform: translate(-50%, -50%) rotate(270deg) translate(90px)
+      rotate(-270deg);
+  }
+
+  /* Subtech circles (6 around the center) */
+  .subtech-circle {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #fff;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(100, 255, 100, 0.15);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+  }
+  .subtech-circle-1 {
+    transform: translate(-50%, -50%) rotate(0deg) translate(70px) rotate(0deg);
+  }
+  .subtech-circle-2 {
+    transform: translate(-50%, -50%) rotate(60deg) translate(70px)
+      rotate(-60deg);
+  }
+  .subtech-circle-3 {
+    transform: translate(-50%, -50%) rotate(120deg) translate(70px)
+      rotate(-120deg);
+  }
+  .subtech-circle-4 {
+    transform: translate(-50%, -50%) rotate(180deg) translate(70px)
+      rotate(-180deg);
+  }
+  .subtech-circle-5 {
+    transform: translate(-50%, -50%) rotate(240deg) translate(70px)
+      rotate(-240deg);
+  }
+  .subtech-circle-6 {
+    transform: translate(-50%, -50%) rotate(300deg) translate(70px)
+      rotate(-300deg);
   }
 `;
