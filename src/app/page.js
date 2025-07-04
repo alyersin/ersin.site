@@ -208,9 +208,9 @@ export default function Home() {
                 bg="red.600"
               />
               <Card
-                title="TECH-BLOG - DESIGN ONLY"
-                image="/assets/projects/techblog.avif"
-                link="https://tech-blog-alpha-fawn.vercel.app/"
+                title="MCS-Workload platform"
+                image="/assets/projects/mcs-workload.png"
+                link="https://mcs-workload.vercel.app/"
                 buttonText="Visit"
                 bg="teal.700"
               />

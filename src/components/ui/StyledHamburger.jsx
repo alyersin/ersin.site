@@ -30,7 +30,7 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
     // Database
     [
       { src: "/assets/techstack/firebase.png", alt: "Firebase" },
-      { src: "/assets/techstack/postgresql1.png", alt: "PostgreSQL" },
+      { src: "/assets/techstack/postgresql.png", alt: "PostgreSQL" },
       { src: "/assets/techstack/mysql.png", alt: "MySQL" },
       { src: "/assets/techstack/database.png", alt: "Redis" },
       { src: "/assets/techstack/database.png", alt: "Prisma" },
