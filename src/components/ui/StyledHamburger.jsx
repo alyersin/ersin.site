@@ -29,21 +29,11 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
           <span className="lines line-3" />
         </label>
 
-        <a
-          href="#"
-          className="menu-item blue"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="#" className="menu-item blue" rel="noopener noreferrer">
           <i className="fa fa-anchor" />
           <span className="item-label">Blog</span>
         </a>
-        <a
-          href="#"
-          className="menu-item green"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="#" className="menu-item green" rel="noopener noreferrer">
           <i className="fa fa-coffee" />
           <span className="item-label">Tech stack</span>
         </a>

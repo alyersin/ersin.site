@@ -27,7 +27,7 @@ export default function MonitorToggle({ onBack }) {
       position="relative"
       overflow="hidden"
     >
-      {/* Monitor and Accordion Wrapper */}
+      {/* MONITOR AND ACCORDION WRAPPER */}
       <Box
         position="relative"
         width="1200px"
@@ -43,7 +43,7 @@ export default function MonitorToggle({ onBack }) {
           viewBox="0 0 400 300"
           style={{ position: "absolute" }}
         >
-          {/* Frame */}
+          {/* FRAME */}
           <rect
             x="50"
             y="50"
@@ -56,7 +56,7 @@ export default function MonitorToggle({ onBack }) {
             strokeWidth="2"
           />
 
-          {/* Screen */}
+          {/* SCREEn */}
           <motion.rect
             x="60"
             y="60"
@@ -73,7 +73,7 @@ export default function MonitorToggle({ onBack }) {
             transition={{ duration: 1, ease: "easeInOut" }}
           />
 
-          {/* Stand */}
+          {/* STAND */}
           <rect x="170" y="250" width="60" height="10" fill="#555" />
           <rect x="150" y="260" width="100" height="10" fill="#444" />
         </svg>
@@ -89,7 +89,7 @@ export default function MonitorToggle({ onBack }) {
           <Switch checked={isOn} onChange={toggleScreen} />
         </Box>
 
-        {/* Accordion Overlay */}
+        {/* ACCORDION OVERLAY */}
         <AnimatePresence>
           {isOn && (
             <MotionBox

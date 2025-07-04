@@ -55,7 +55,6 @@ export default function Home() {
 
   return (
     <Box width="100vw" height="auto" overflow="hidden" scrollBehavior="smooth">
-      {/* Modal with StyledForm_2 */}
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent
