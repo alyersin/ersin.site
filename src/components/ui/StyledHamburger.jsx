@@ -1,12 +1,51 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 export default function StyledHamburger({ onContactClick, closeMenu }) {
   const [isOpen, setIsOpen] = useState(false);
   const [techStackActive, setTechStackActive] = useState(false);
-  const [activeSubTech, setActiveSubTech] = useState(null); // null or 0-3
-  const [activeTechImage, setActiveTechImage] = useState(null); // store selected tech image
+  const [activeSubTech, setActiveSubTech] = useState(null);
+  const [activeTechImage, setActiveTechImage] = useState(null);
+
+  const subTechImages = [
+    // Frontend
+    [
+      { src: "/assets/techstack/htmlcssjs.webp", alt: "HTML/CSS/JS" },
+      { src: "/assets/techstack/react.png", alt: "React" },
+      { src: "/assets/techstack/nextjs.png", alt: "NextJS" },
+      { src: "/assets/techstack/chakra.png", alt: "chakra" },
+      { src: "/assets/techstack/git.png", alt: "GIT" },
+      { src: "/assets/techstack/rest.png", alt: "RESTapi" },
+    ],
+    // Backend
+    [
+      { src: "/assets/techstack/backend.png", alt: "Node.js" },
+      { src: "/assets/techstack/backend.png", alt: "Express" },
+      { src: "/assets/techstack/backend.png", alt: "REST API" },
+      { src: "/assets/techstack/backend.png", alt: "GraphQL" },
+      { src: "/assets/techstack/backend.png", alt: "Socket.io" },
+      { src: "/assets/techstack/backend.png", alt: "JWT" },
+    ],
+    // Database
+    [
+      { src: "/assets/techstack/database.png", alt: "MongoDB" },
+      { src: "/assets/techstack/database.png", alt: "PostgreSQL" },
+      { src: "/assets/techstack/database.png", alt: "MySQL" },
+      { src: "/assets/techstack/database.png", alt: "Redis" },
+      { src: "/assets/techstack/database.png", alt: "Prisma" },
+      { src: "/assets/techstack/database.png", alt: "Mongoose" },
+    ],
+    // Server
+    [
+      { src: "/assets/techstack/server.png", alt: "Nginx" },
+      { src: "/assets/techstack/server.png", alt: "Vercel" },
+      { src: "/assets/techstack/server.png", alt: "Netlify" },
+      { src: "/assets/techstack/server.png", alt: "Heroku" },
+      { src: "/assets/techstack/server.png", alt: "AWS" },
+      { src: "/assets/techstack/server.png", alt: "Docker" },
+    ],
+  ];
 
   const handleToggle = () => {
     if (activeSubTech !== null) {
@@ -39,6 +78,24 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
     onContactClick();
     setIsMenuOpen(false);
   };
+
+  useEffect(() => {
+    if (!(isOpen || techStackActive || activeSubTech !== null)) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" || e.key === "Esc") {
+        if (activeSubTech !== null) {
+          setActiveSubTech(null);
+          setActiveTechImage(null);
+        } else if (techStackActive) {
+          setTechStackActive(false);
+        } else if (isOpen) {
+          setIsOpen(false);
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, techStackActive, activeSubTech]);
 
   return (
     <StyledWrapper
@@ -83,12 +140,23 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
                 <span className="item-label">Icon {activeSubTech + 1}</span>
               )}
             </a>
-            {[0, 1, 2, 3, 4, 5].map((idx) => (
+            {(subTechImages[activeSubTech] || []).map((img, idx) => (
               <div
                 key={idx}
                 className={`subtech-circle subtech-circle-${idx + 1}`}
               >
-                <span className="techstack-icon">Sub {idx + 1}</span>
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  width={70}
+                  height={70}
+                  style={{
+                    objectFit: "contain",
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "50%",
+                  }}
+                />
               </div>
             ))}
           </>
@@ -608,10 +676,11 @@ const StyledWrapper = styled.div`
   /* Subtech circles (6 around the center) */
   .subtech-circle {
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
-    background: #fff;
+    // background: #fff;
+    background: transparent;
     color: #333;
     display: flex;
     align-items: center;
@@ -625,26 +694,26 @@ const StyledWrapper = styled.div`
     left: 50%;
   }
   .subtech-circle-1 {
-    transform: translate(-50%, -50%) rotate(0deg) translate(70px) rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg) translate(90px) rotate(0deg);
   }
   .subtech-circle-2 {
-    transform: translate(-50%, -50%) rotate(60deg) translate(70px)
+    transform: translate(-50%, -50%) rotate(60deg) translate(90px)
       rotate(-60deg);
   }
   .subtech-circle-3 {
-    transform: translate(-50%, -50%) rotate(120deg) translate(70px)
+    transform: translate(-50%, -50%) rotate(120deg) translate(90px)
       rotate(-120deg);
   }
   .subtech-circle-4 {
-    transform: translate(-50%, -50%) rotate(180deg) translate(70px)
+    transform: translate(-50%, -50%) rotate(180deg) translate(90px)
       rotate(-180deg);
   }
   .subtech-circle-5 {
-    transform: translate(-50%, -50%) rotate(240deg) translate(70px)
+    transform: translate(-50%, -50%) rotate(240deg) translate(90px)
       rotate(-240deg);
   }
   .subtech-circle-6 {
-    transform: translate(-50%, -50%) rotate(300deg) translate(70px)
+    transform: translate(-50%, -50%) rotate(300deg) translate(90px)
       rotate(-300deg);
   }
 `;
