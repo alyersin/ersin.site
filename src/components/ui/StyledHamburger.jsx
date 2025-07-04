@@ -20,8 +20,8 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
     ],
     // Backend
     [
-      { src: "/assets/techstack/backend.png", alt: "Node.js" },
-      { src: "/assets/techstack/backend.png", alt: "Express" },
+      { src: "/assets/techstack/nodejs.png", alt: "Node.js" },
+      { src: "/assets/techstack/expressjs.png", alt: "Express" },
       { src: "/assets/techstack/backend.png", alt: "REST API" },
       { src: "/assets/techstack/backend.png", alt: "GraphQL" },
       { src: "/assets/techstack/backend.png", alt: "Socket.io" },
@@ -29,21 +29,21 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
     ],
     // Database
     [
-      { src: "/assets/techstack/database.png", alt: "MongoDB" },
-      { src: "/assets/techstack/database.png", alt: "PostgreSQL" },
-      { src: "/assets/techstack/database.png", alt: "MySQL" },
+      { src: "/assets/techstack/firebase.png", alt: "Firebase" },
+      { src: "/assets/techstack/postgresql1.png", alt: "PostgreSQL" },
+      { src: "/assets/techstack/mysql.png", alt: "MySQL" },
       { src: "/assets/techstack/database.png", alt: "Redis" },
       { src: "/assets/techstack/database.png", alt: "Prisma" },
       { src: "/assets/techstack/database.png", alt: "Mongoose" },
     ],
     // Server
     [
-      { src: "/assets/techstack/server.png", alt: "Nginx" },
+      { src: "/assets/techstack/docker.png", alt: "Docker" },
+      { src: "/assets/techstack/nginx.png", alt: "Nginx" },
+      { src: "/assets/techstack/sysadmin.png", alt: "Sysadmin" },
+      { src: "/assets/techstack/githubactions.png", alt: "GitGub Actions" },
+      { src: "/assets/techstack/azure.png", alt: "Azure" },
       { src: "/assets/techstack/server.png", alt: "Vercel" },
-      { src: "/assets/techstack/server.png", alt: "Netlify" },
-      { src: "/assets/techstack/server.png", alt: "Heroku" },
-      { src: "/assets/techstack/server.png", alt: "AWS" },
-      { src: "/assets/techstack/server.png", alt: "Docker" },
     ],
   ];
 
