@@ -637,7 +637,7 @@ const StyledWrapper = styled.div`
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.7);
     color: #333;
     display: flex;
     align-items: center;
@@ -649,6 +649,18 @@ const StyledWrapper = styled.div`
     z-index: 2;
     top: 50%;
     left: 50%;
+    cursor: pointer;
+  }
+  .techstack-circle:hover {
+    background: radial-gradient(
+      circle,
+      rgba(107, 70, 193, 0.85),
+      rgba(184, 50, 128, 0.85)
+    );
+    box-shadow: 0 0 20px 4px rgba(184, 50, 128, 0.4),
+      0 0 40px 8px rgba(107, 70, 193, 0.3),
+      inset 0 0 16px rgba(184, 50, 128, 0.3);
+    color: #fff;
   }
   .techstack-icon {
     /* Placeholder for icon */
@@ -715,5 +727,30 @@ const StyledWrapper = styled.div`
   .subtech-circle-6 {
     transform: translate(-50%, -50%) rotate(300deg) translate(90px)
       rotate(-300deg);
+  }
+
+  .techstack-circle-1:hover {
+    background: radial-gradient(circle, #6b46c1 80%, #b83280 100%);
+    box-shadow: 0 0 20px 4px #b8328088, 0 0 40px 8px #6b46c188,
+      inset 0 0 16px #b8328088;
+    color: #fff;
+  }
+  .techstack-circle-2:hover {
+    background: radial-gradient(circle, #319795 80%, #38b2ac 100%);
+    box-shadow: 0 0 20px 4px #38b2ac88, 0 0 40px 8px #31979588,
+      inset 0 0 16px #38b2ac88;
+    color: #fff;
+  }
+  .techstack-circle-3:hover {
+    background: radial-gradient(circle, #3182ce 80%, #63b3ed 100%);
+    box-shadow: 0 0 20px 4px #63b3ed88, 0 0 40px 8px #3182ce88,
+      inset 0 0 16px #63b3ed88;
+    color: #fff;
+  }
+  .techstack-circle-4:hover {
+    background: radial-gradient(circle, #f56565 80%, #ed64a6 100%);
+    box-shadow: 0 0 20px 4px #ed64a688, 0 0 40px 8px #f5656588,
+      inset 0 0 16px #ed64a688;
+    color: #fff;
   }
 `;
