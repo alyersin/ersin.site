@@ -189,22 +189,22 @@ export default function Home() {
                 title="E-Commerce app PRODUCTION BUILD"
                 image="/assets/projects/coffee-shop01.avif"
                 link="https://cafe-prestigeapp-git-main-alyersins-projects.vercel.app/"
-                buttonText="Live Site"
+                buttonText="Visit"
                 bg="purple.700"
                 shadow="lg"
               />
-              <Card
+              {/* <Card
                 title="URBAN-EDGE - DESIGN ONLY"
                 image="/assets/projects/urban-edge.avif"
                 link="https://urban-edge-rho.vercel.app/"
-                buttonText="Preview"
+                buttonText="Visit"
                 bg="gray.800"
-              />
+              /> */}
               <Card
                 title="SAO-MARCO-PIZZA - DESIGN ONLY"
                 image="/assets/projects/sao-marco-pizza.avif"
                 link="https://sao-marco-pizza.vercel.app/"
-                buttonText="See Live"
+                buttonText="Visit"
                 bg="red.600"
               />
               <Card
@@ -218,7 +218,7 @@ export default function Home() {
                 title="CAREER-SKETCH - DESIGN ONLY"
                 image="/assets/projects/career-sketch.avif"
                 link="https://career-sketch.vercel.app/"
-                buttonText="Open"
+                buttonText="Visit"
                 bg="blue.600"
               />
             </SimpleGrid>

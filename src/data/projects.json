@@ -7,14 +7,6 @@
     "frontHref": "https://coffee-shop-app-xi.vercel.app/",
     "backHref": "https://github.com/alyersin/coffee-shop-app"
   },
-  {
-    "id": 2,
-    "title": "URBAN-EDGE - DESIGN ONLY",
-    "frontImage": "/assets/projects/urban-edge.avif",
-    "backImage": "/assets/projects/backImage-2.avif",
-    "frontHref": "https://urban-edge-rho.vercel.app/",
-    "backHref": "https://github.com/alyersin/UrbanEdge-Online-Store-NEXTJS"
-  },
   { 
     "id": 3,
     "title": "SAO-MARCO-PIZZA - DESIGN ONLY",
