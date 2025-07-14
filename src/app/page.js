@@ -188,7 +188,7 @@ export default function Home() {
               <Card
                 title="E-Commerce app PRODUCTION BUILD"
                 image="/assets/projects/coffee-shop01.avif"
-                link="https://cafe-prestigeapp-git-main-alyersins-projects.vercel.app/"
+                link="https://coffee-shop-app-xi.vercel.app/"
                 buttonText="Visit"
                 bg="purple.700"
                 shadow="lg"
