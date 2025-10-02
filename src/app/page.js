@@ -158,54 +158,62 @@ export default function Home() {
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          px={8}
-          pt={4}
-          pb={8}
+          px={4}
+          pt={6}
+          pb={12}
+          minHeight="100vh"
         >
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            bg="whiteAlpha.200"
-            borderRadius="md"
-            px={4}
-            py={2}
-            width="fit-content"
-            mx="auto"
-          >
+          {/* Info Banner */}
+          <Box mb={6} textAlign="center">
             <Box
-              as={require("@chakra-ui/icons").InfoOutlineIcon}
-              color="purple.200"
-              // boxSize={5}
-              mr={2}
-            />
-            <Text color="purple.100" fontStyle="italic" fontSize="xs">
-              Best viewed on desktop
-            </Text>
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              bg="rgba(255, 255, 255, 0.1)"
+              backdropFilter="blur(10px)"
+              borderRadius="full"
+              px={4}
+              py={2}
+              width="fit-content"
+              mx="auto"
+              border="1px solid rgba(255, 255, 255, 0.2)"
+            >
+              <Box
+                as={require("@chakra-ui/icons").InfoOutlineIcon}
+                color="purple.200"
+                boxSize={4}
+                mr={2}
+              />
+              <Text color="purple.100" fontStyle="italic" fontSize="xs">
+                Best viewed on desktop
+              </Text>
+            </Box>
           </Box>
-          <VStack spacing={8} position="relative" zIndex={2} width="100%">
-            <SimpleGrid columns={[1, 2, 3]} spacing={6} p={8}>
+          <VStack
+            spacing={6}
+            position="relative"
+            zIndex={2}
+            width="100%"
+            px={4}
+          >
+            <SimpleGrid columns={[1, 1, 2]} spacing={4} w="full" maxW="600px">
               <Card
                 title="E-Commerce app PRODUCTION BUILD"
                 image="/assets/projects/coffee-shop01.avif"
                 link="https://coffee-shop-app-xi.vercel.app/"
                 buttonText="Visit"
                 bg="purple.700"
-                shadow="lg"
+                shadow="xl"
+                description="Full-stack e-commerce platform with modern UI/UX"
               />
-              {/* <Card
-                title="URBAN-EDGE - DESIGN ONLY"
-                image="/assets/projects/urban-edge.avif"
-                link="https://urban-edge-rho.vercel.app/"
-                buttonText="Visit"
-                bg="gray.800"
-              /> */}
               <Card
                 title="SAO-MARCO-PIZZA - DESIGN ONLY"
                 image="/assets/projects/sao-marco-pizza.avif"
                 link="https://sao-marco-pizza.vercel.app/"
                 buttonText="Visit"
                 bg="red.600"
+                shadow="xl"
+                description="Pizza ordering interface with appetizing design"
               />
               <Card
                 title="MCS-Workload platform"
@@ -213,6 +221,8 @@ export default function Home() {
                 link="https://mcs-workload.vercel.app/"
                 buttonText="Visit"
                 bg="teal.700"
+                shadow="xl"
+                description="Workload management system dashboard"
               />
               <Card
                 title="CAREER-SKETCH - DESIGN ONLY"
@@ -220,6 +230,8 @@ export default function Home() {
                 link="https://career-sketch.vercel.app/"
                 buttonText="Visit"
                 bg="blue.600"
+                shadow="xl"
+                description="Professional portfolio and career showcase"
               />
             </SimpleGrid>
 
