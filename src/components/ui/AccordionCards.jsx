@@ -11,7 +11,6 @@ import {
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { keyframes } from "@emotion/react";
-import { motion } from "framer-motion";
 import cards from "../../data/projects.json";
 
 // SHAKE ANIMATION
@@ -87,10 +86,6 @@ export default function AccordionCards() {
     setDragOffset(0);
     setDragVelocity(0);
     setLastDragTime(Date.now());
-    
-    // Close all open cards when dragging starts
-    setActiveCard(null);
-    setFlippedCards({});
   }, []);
 
   const handleDragMove = useCallback(
@@ -335,27 +330,26 @@ export default function AccordionCards() {
                 : undefined,
           }}
         >
-          <motion.div
+          <Box
             className="borderRed"
             onClick={() => handleTap(card.id, card.frontHref, card.backHref)}
-            style={{
-              position: "relative",
-              width: activeCard === card.id ? "50%" : "16%",
-              height: "400px",
-              cursor: "pointer",
-              transformStyle: "preserve-3d",
-            }}
-            animate={{
+            position="relative"
+            width={
+              activeCard === card.id
+                ? { base: "80%", md: "50%" }
+                : { base: "20%", md: "16%" }
+            }
+            height={{ base: "300px", md: "400px" }}
+            cursor="pointer"
+            sx={{
               transform: flippedCards[card.id]
                 ? "rotateY(180deg)"
                 : `translateZ(${activeCard === card.id ? "20px" : "0px"})`,
+              transformStyle: "preserve-3d",
+              transition: isDragging ? "none" : "transform 1s, width 0.3s",
               filter: `brightness(${
                 activeCard === card.id ? "1.1" : "0.9"
               }) contrast(${activeCard === card.id ? "1.1" : "1"})`,
-            }}
-            transition={{
-              duration: 0.6,
-              ease: "easeInOut",
             }}
           >
             {/* FRONT SIDE */}
@@ -365,7 +359,6 @@ export default function AccordionCards() {
               height="100%"
               style={{
                 backfaceVisibility: "hidden",
-                transition: "transform 0.6s ease-in-out",
               }}
             >
               <Image
@@ -387,7 +380,6 @@ export default function AccordionCards() {
               style={{
                 backfaceVisibility: "hidden",
                 transform: "rotateY(180deg)",
-                transition: "transform 0.6s ease-in-out",
               }}
             >
               <Image
@@ -400,7 +392,7 @@ export default function AccordionCards() {
                 draggable={false}
               />
             </Box>
-          </motion.div>
+          </Box>
         </Tooltip>
       ))}
       {/* RIGHT ARROW */}
