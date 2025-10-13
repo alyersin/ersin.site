@@ -1,28 +1,102 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-export default function StyledForm_2() {
+export default function StyledForm_2({ onClose }) {
+  const [formData, setFormData] = useState({
+    email: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ email: "", message: "" });
+        // Close modal after 2 seconds
+        setTimeout(() => {
+          if (onClose) onClose();
+        }, 2000);
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <StyledWrapper>
       <div className="form-container">
-        <form className="form">
+        <form className="form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Your Email</label>
-            <input type="text" id="email" name="email" required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="textarea">Message</label>
-            <textarea
-              name="textarea"
-              id="textarea"
-              rows={10}
-              cols={50}
-              required
-              defaultValue={"          "}
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="your.email@example.com"
+              required 
+              disabled={isSubmitting}
             />
           </div>
-          <button className="form-submit-btn" type="submit">
-            Submit
+          <div className="form-group">
+            <label htmlFor="message">Message</label>
+            <textarea
+              name="message"
+              id="message"
+              rows={10}
+              cols={50}
+              value={formData.message}
+              onChange={handleInputChange}
+              placeholder="Your message here..."
+              required
+              disabled={isSubmitting}
+            />
+          </div>
+          
+          {submitStatus && (
+            <div className={`status-message ${submitStatus}`}>
+              {submitStatus === 'success' 
+                ? 'Message sent successfully!' 
+                : 'Failed to send message. Please try again.'}
+            </div>
+          )}
+          
+          <button 
+            className="form-submit-btn" 
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Sending...' : 'Submit'}
           </button>
         </form>
       </div>
@@ -129,5 +203,30 @@ const StyledWrapper = styled.div`
   .form-container .form-submit-btn:hover {
     background-color: #fff;
     border-color: #fff;
+  }
+
+  .form-container .form-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .status-message {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .status-message.success {
+    background-color: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .status-message.error {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
   }
 `;

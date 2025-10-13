@@ -64,7 +64,7 @@ export default function Home() {
           alignItems="center"
           justifyContent="center"
         >
-          <StyledForm_2 />
+          <StyledForm_2 onClose={onClose} />
         </ModalContent>
       </Modal>
 
