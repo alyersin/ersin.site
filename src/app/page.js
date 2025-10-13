@@ -207,13 +207,22 @@ export default function Home() {
                 description="Full-stack e-commerce platform with modern UI/UX"
               />
               <Card
-                title="SAO-MARCO-PIZZA - DESIGN ONLY"
-                image="/assets/projects/sao-marco-pizza.avif"
-                link="https://sao-marco-pizza.vercel.app/"
+                title="Kinder Garten Edu Games"
+                image="/assets/projects/kindergarten.avif"
+                link="https://kindergarten-edu-games.vercel.app/"
                 buttonText="Visit"
-                bg="red.600"
+                bg="green.600"
                 shadow="xl"
-                description="Pizza ordering interface with appetizing design"
+                description="Educational games platform for kindergarten learning"
+              />
+              <Card
+                title="Mini-Scoala"
+                image="/assets/projects/mini-scoala.avif"
+                link="http://5.14.11.22:3025/"
+                buttonText="Visit"
+                bg="orange.600"
+                shadow="xl"
+                description="Production educational platform for comprehensive school learning management"
               />
               <Card
                 title="MCS-Workload platform"
@@ -226,12 +235,30 @@ export default function Home() {
               />
               <Card
                 title="CAREER-SKETCH - DESIGN ONLY"
-                image="/assets/projects/career-sketch.avif"
+                image="/assets/projects/career.avif"
                 link="https://career-sketch.vercel.app/"
                 buttonText="Visit"
                 bg="blue.600"
                 shadow="xl"
                 description="Professional portfolio and career showcase"
+              />
+              <Card
+                title="TECH-BLOG - DESIGN ONLY"
+                image="/assets/projects/techblog.avif"
+                link="https://tech-blog-alpha-fawn.vercel.app/"
+                buttonText="Visit"
+                bg="cyan.600"
+                shadow="xl"
+                description="Modern tech blog with clean design interface"
+              />
+              <Card
+                title="SAO-MARCO-PIZZA - DESIGN ONLY"
+                image="/assets/projects/sao-marco-pizza.avif"
+                link="https://sao-marco-pizza.vercel.app/"
+                buttonText="Visit"
+                bg="red.600"
+                shadow="xl"
+                description="Pizza ordering interface with appetizing design"
               />
             </SimpleGrid>
 

@@ -252,10 +252,19 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
 }
 
 const StyledWrapper = styled.div`
-  &:not(.open) .menu-item {
-    visibility: hidden;
-    opacity: 0;
-    pointer-events: none;
+  /* Hide menu items by default to prevent FOUC */
+  .menu-item {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: visibility 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* Show menu items only when explicitly open */
+  &.open .menu-item {
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
   }
 
   .menu {

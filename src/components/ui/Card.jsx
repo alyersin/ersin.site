@@ -30,6 +30,12 @@ export default function Card({
   const getCategoryColor = (title) => {
     if (title.includes("PRODUCTION")) return "green";
     if (title.includes("DESIGN ONLY")) return "orange";
+    if (
+      title.includes("Kinder Garten") ||
+      title.includes("Mini-Scoala") ||
+      title.includes("MCS-Workload")
+    )
+      return "green";
     return "blue";
   };
 
@@ -92,6 +98,10 @@ export default function Card({
             ? "Live"
             : title.includes("DESIGN")
             ? "Design"
+            : title.includes("Kinder Garten") ||
+              title.includes("Mini-Scoala") ||
+              title.includes("MCS-Workload")
+            ? "Live"
             : "Project"}
         </Badge>
       </Flex>

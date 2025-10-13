@@ -44,3 +44,11 @@ a {
     color-scheme: dark;
   }
 }
+
+/* Prevent FOUC for hamburger menu items */
+.menu-item {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+

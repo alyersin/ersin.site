@@ -11,7 +11,7 @@ import {
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { keyframes } from "@emotion/react";
-import { useSwipeable } from "react-swipeable";
+import { motion } from "framer-motion";
 import cards from "../../data/projects.json";
 
 // SHAKE ANIMATION
@@ -55,6 +55,12 @@ export default function AccordionCards() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastTap, setLastTap] = useState(0);
   const [tapTimeout, setTapTimeout] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartX, setDragStartX] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [dragVelocity, setDragVelocity] = useState(0);
+  const [lastDragTime, setLastDragTime] = useState(0);
+  const [lastCardChange, setLastCardChange] = useState(0);
   const visibleCardsCount = useBreakpointValue({ base: 3, md: 5 });
   const isMobile = useBreakpointValue({ base: true, md: false });
   const containerRef = useRef(null);
@@ -63,14 +69,7 @@ export default function AccordionCards() {
     ? "Tap to interact / Double tap to flip"
     : "Click to interact / SPACE to flip";
 
-  // SWIPE HANDLERS
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => handleNext(),
-    onSwipedRight: () => handlePrev(),
-    preventScrollOnSwipe: true,
-    trackMouse: true,
-  });
-
+  // SMOOTH CAROUSEL FUNCTIONS
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % cards.length);
   };
@@ -80,6 +79,114 @@ export default function AccordionCards() {
       (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
     );
   };
+
+  // WHEEL-LIKE DRAG HANDLING
+  const handleDragStart = useCallback((event) => {
+    setIsDragging(true);
+    setDragStartX(event.clientX || event.touches?.[0]?.clientX || 0);
+    setDragOffset(0);
+    setDragVelocity(0);
+    setLastDragTime(Date.now());
+    
+    // Close all open cards when dragging starts
+    setActiveCard(null);
+    setFlippedCards({});
+  }, []);
+
+  const handleDragMove = useCallback(
+    (event) => {
+      if (!isDragging) return;
+
+      const currentX = event.clientX || event.touches?.[0]?.clientX || 0;
+      const deltaX = currentX - dragStartX;
+      const currentTime = Date.now();
+      const deltaTime = currentTime - lastDragTime;
+
+      // Calculate velocity for momentum
+      if (deltaTime > 0) {
+        const velocity = deltaX / deltaTime;
+        setDragVelocity(velocity);
+      }
+
+      // Update visual feedback immediately
+      setDragOffset(deltaX);
+      setLastDragTime(currentTime);
+
+      // Change cards in real-time while dragging
+      const dragThreshold = 150; // Pixels to drag before changing card
+      const now = Date.now();
+      
+      // Prevent rapid successive card changes (minimum 300ms between changes)
+      if (Math.abs(deltaX) > dragThreshold && (now - lastCardChange) > 300) {
+        if (deltaX > 0) {
+          // Dragging right -> go to previous card
+          handlePrev();
+        } else {
+          // Dragging left -> go to next card
+          handleNext();
+        }
+        
+        // Reset drag start point to allow continuous dragging
+        setDragStartX(currentX);
+        setDragOffset(0);
+        setLastCardChange(now);
+      }
+    },
+    [isDragging, dragStartX, lastDragTime, handleNext, handlePrev, lastCardChange]
+  );
+
+  const handleDragEnd = useCallback(() => {
+    if (!isDragging) return;
+
+    setIsDragging(false);
+
+    // Snap back to center
+    setDragOffset(0);
+    setDragVelocity(0);
+  }, [isDragging]);
+
+
+  // MOUSE AND TOUCH EVENT HANDLERS
+  const handleMouseDown = useCallback((event) => {
+    handleDragStart(event);
+  }, [handleDragStart]);
+
+  const handleMouseMove = useCallback((event) => {
+    handleDragMove(event);
+  }, [handleDragMove]);
+
+  const handleMouseUp = useCallback(() => {
+    handleDragEnd();
+  }, [handleDragEnd]);
+
+  const handleTouchStart = useCallback((event) => {
+    handleDragStart(event);
+  }, [handleDragStart]);
+
+  const handleTouchMove = useCallback((event) => {
+    handleDragMove(event);
+  }, [handleDragMove]);
+
+  const handleTouchEnd = useCallback(() => {
+    handleDragEnd();
+  }, [handleDragEnd]);
+
+  // Add global mouse move and mouse up listeners when dragging
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('touchmove', handleTouchMove);
+      window.addEventListener('touchend', handleTouchEnd);
+
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+        window.removeEventListener('touchmove', handleTouchMove);
+        window.removeEventListener('touchend', handleTouchEnd);
+      };
+    }
+  }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
   const handleTap = (id, frontHref, backHref) => {
     const now = Date.now();
@@ -166,10 +273,12 @@ export default function AccordionCards() {
       )
     );
 
+
   return (
     <Flex
       ref={containerRef}
-      {...swipeHandlers}
+      onMouseDown={handleMouseDown}
+      onTouchStart={handleTouchStart}
       position="relative"
       className="borderAll"
       direction="row"
@@ -182,6 +291,16 @@ export default function AccordionCards() {
       mt={{ base: 14, md: "10" }}
       mb={{ base: 24, md: "24" }}
       gap={{ base: 2, md: 2 }}
+      style={{
+        transition: isDragging
+          ? "none"
+          : "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        cursor: isDragging ? "grabbing" : "grab",
+        perspective: "1000px",
+        transformStyle: "preserve-3d",
+        userSelect: "none",
+        WebkitUserSelect: "none",
+      }}
     >
       {/* LEFT ARROW */}
       <IconButton
@@ -194,7 +313,7 @@ export default function AccordionCards() {
         aria-label="Previous Slide"
         {...arrowStyles}
       />
-      {visibleCards.map((card) => (
+      {visibleCards.map((card, index) => (
         <Tooltip
           key={`${card.id}-${activeCard}`}
           label={tooltipText}
@@ -216,23 +335,27 @@ export default function AccordionCards() {
                 : undefined,
           }}
         >
-          <Box
+          <motion.div
             className="borderRed"
             onClick={() => handleTap(card.id, card.frontHref, card.backHref)}
-            position="relative"
-            width={
-              activeCard === card.id
-                ? { base: "80%", md: "50%" }
-                : { base: "20%", md: "16%" }
-            }
-            height={{ base: "300px", md: "400px" }}
-            cursor="pointer"
-            sx={{
+            style={{
+              position: "relative",
+              width: activeCard === card.id ? "50%" : "16%",
+              height: "400px",
+              cursor: "pointer",
+              transformStyle: "preserve-3d",
+            }}
+            animate={{
               transform: flippedCards[card.id]
                 ? "rotateY(180deg)"
-                : "rotateY(0)",
-              transformStyle: "preserve-3d",
-              transition: "transform 1s, width 0.3s",
+                : `translateZ(${activeCard === card.id ? "20px" : "0px"})`,
+              filter: `brightness(${
+                activeCard === card.id ? "1.1" : "0.9"
+              }) contrast(${activeCard === card.id ? "1.1" : "1"})`,
+            }}
+            transition={{
+              duration: 0.6,
+              ease: "easeInOut",
             }}
           >
             {/* FRONT SIDE */}
@@ -242,6 +365,7 @@ export default function AccordionCards() {
               height="100%"
               style={{
                 backfaceVisibility: "hidden",
+                transition: "transform 0.6s ease-in-out",
               }}
             >
               <Image
@@ -263,6 +387,7 @@ export default function AccordionCards() {
               style={{
                 backfaceVisibility: "hidden",
                 transform: "rotateY(180deg)",
+                transition: "transform 0.6s ease-in-out",
               }}
             >
               <Image
@@ -275,7 +400,7 @@ export default function AccordionCards() {
                 draggable={false}
               />
             </Box>
-          </Box>
+          </motion.div>
         </Tooltip>
       ))}
       {/* RIGHT ARROW */}
