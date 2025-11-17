@@ -1,19 +1,18 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+// HANDLES CONTACT FORM SUBMISSIONS AND SENDS EMAIL
 export async function POST(request) {
   try {
     const { email, message } = await request.json();
 
-    // Basic validation
     if (!email || !message) {
       return NextResponse.json(
         { error: 'Email and message are required' },
-        { status: 400 }
-      );
+      { status: 400 }
+    );
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
@@ -22,22 +21,20 @@ export async function POST(request) {
       );
     }
 
-    // Create transporter (you'll need to configure this with your email service)
     const transporter = nodemailer.createTransport({
-      service: 'gmail', // You can use other services like 'outlook', 'yahoo', etc.
+      service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER, // Your email
-        pass: process.env.EMAIL_PASS, // Your email password or app password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
       tls: {
-        rejectUnauthorized: false // This fixes the self-signed certificate issue in development
+        rejectUnauthorized: false
       }
     });
 
-    // Email content
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // Send to yourself
+      to: process.env.EMAIL_USER,
       replyTo: email,
       subject: `New Contact Form Message from ${email}`,
       html: `
@@ -63,7 +60,6 @@ export async function POST(request) {
       `,
     };
 
-    // Send email
     await transporter.sendMail(mailOptions);
 
     return NextResponse.json(

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+// GLOWING BUTTON WITH ICON SUPPORT
 export default function StyledBtn_3({ text = "Button", onClick, icon }) {
   return (
     <StyledWrapper>
@@ -64,7 +65,6 @@ const StyledWrapper = styled.div`
       inset 0 0 0.5em 0.25em var(--glow-color);
   }
 
-  /* ✅ Add media queries for responsiveness */
   @media (max-width: 768px) {
     button {
       padding: 0.6em 1.4em;

@@ -13,7 +13,6 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { keyframes } from "@emotion/react";
 import cards from "../../data/projects.json";
 
-// SHAKE ANIMATION
 const shakeAnimation = keyframes`
   0% { transform: translateX(0); }
   25% { transform: translateX(-2%); }
@@ -22,7 +21,6 @@ const shakeAnimation = keyframes`
   100% { transform: translateX(0); }
 `;
 
-// ARROW STYLES
 const arrowStyles = {
   bg: "whiteAlpha.200",
   color: "white",
@@ -48,6 +46,7 @@ const arrowStyles = {
   },
 };
 
+// INTERACTIVE CAROUSEL OF PROJECT CARDS WITH FLIP ANIMATION
 export default function AccordionCards() {
   const [activeCard, setActiveCard] = useState(null);
   const [flippedCards, setFlippedCards] = useState({});
@@ -68,18 +67,19 @@ export default function AccordionCards() {
     ? "Tap to interact / Double tap to flip"
     : "Click to interact / SPACE to flip";
 
-  // SMOOTH CAROUSEL FUNCTIONS
+  // NAVIGATES TO NEXT CARD
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % cards.length);
   };
 
+  // NAVIGATES TO PREVIOUS CARD
   const handlePrev = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
     );
   };
 
-  // WHEEL-LIKE DRAG HANDLING
+  // INITIATES DRAG OPERATION
   const handleDragStart = useCallback((event) => {
     setIsDragging(true);
     setDragStartX(event.clientX || event.touches?.[0]?.clientX || 0);
@@ -88,6 +88,7 @@ export default function AccordionCards() {
     setLastDragTime(Date.now());
   }, []);
 
+  // HANDLES DRAG MOVEMENT AND CARD NAVIGATION
   const handleDragMove = useCallback(
     (event) => {
       if (!isDragging) return;
@@ -97,31 +98,24 @@ export default function AccordionCards() {
       const currentTime = Date.now();
       const deltaTime = currentTime - lastDragTime;
 
-      // Calculate velocity for momentum
       if (deltaTime > 0) {
         const velocity = deltaX / deltaTime;
         setDragVelocity(velocity);
       }
 
-      // Update visual feedback immediately
       setDragOffset(deltaX);
       setLastDragTime(currentTime);
 
-      // Change cards in real-time while dragging
-      const dragThreshold = 150; // Pixels to drag before changing card
+      const dragThreshold = 150;
       const now = Date.now();
       
-      // Prevent rapid successive card changes (minimum 300ms between changes)
       if (Math.abs(deltaX) > dragThreshold && (now - lastCardChange) > 300) {
         if (deltaX > 0) {
-          // Dragging right -> go to previous card
           handlePrev();
         } else {
-          // Dragging left -> go to next card
           handleNext();
         }
         
-        // Reset drag start point to allow continuous dragging
         setDragStartX(currentX);
         setDragOffset(0);
         setLastCardChange(now);
@@ -130,43 +124,46 @@ export default function AccordionCards() {
     [isDragging, dragStartX, lastDragTime, handleNext, handlePrev, lastCardChange]
   );
 
+  // ENDS DRAG OPERATION AND RESETS STATE
   const handleDragEnd = useCallback(() => {
     if (!isDragging) return;
 
     setIsDragging(false);
 
-    // Snap back to center
     setDragOffset(0);
     setDragVelocity(0);
   }, [isDragging]);
 
-
-  // MOUSE AND TOUCH EVENT HANDLERS
+  // HANDLES MOUSE DOWN EVENT
   const handleMouseDown = useCallback((event) => {
     handleDragStart(event);
   }, [handleDragStart]);
 
+  // HANDLES MOUSE MOVE EVENT
   const handleMouseMove = useCallback((event) => {
     handleDragMove(event);
   }, [handleDragMove]);
 
+  // HANDLES MOUSE UP EVENT
   const handleMouseUp = useCallback(() => {
     handleDragEnd();
   }, [handleDragEnd]);
 
+  // HANDLES TOUCH START EVENT
   const handleTouchStart = useCallback((event) => {
     handleDragStart(event);
   }, [handleDragStart]);
 
+  // HANDLES TOUCH MOVE EVENT
   const handleTouchMove = useCallback((event) => {
     handleDragMove(event);
   }, [handleDragMove]);
 
+  // HANDLES TOUCH END EVENT
   const handleTouchEnd = useCallback(() => {
     handleDragEnd();
   }, [handleDragEnd]);
 
-  // Add global mouse move and mouse up listeners when dragging
   useEffect(() => {
     if (isDragging) {
       window.addEventListener('mousemove', handleMouseMove);
@@ -181,8 +178,9 @@ export default function AccordionCards() {
         window.removeEventListener('touchend', handleTouchEnd);
       };
     }
-  }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
+  },     [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
+  // HANDLES CARD TAP/CLICK FOR FLIP OR NAVIGATION
   const handleTap = (id, frontHref, backHref) => {
     const now = Date.now();
 
@@ -211,6 +209,7 @@ export default function AccordionCards() {
     }
   };
 
+  // HANDLES KEYBOARD INPUT FOR CARD INTERACTION
   const handleKeyDown = useCallback(
     (event) => {
       if (!isMobile) {
@@ -229,6 +228,7 @@ export default function AccordionCards() {
     [activeCard, isMobile]
   );
 
+  // CLOSES MENU WHEN CLICKING OUTSIDE ON MOBILE
   const handleClickOutside = useCallback(
     (event) => {
       if (
@@ -297,7 +297,6 @@ export default function AccordionCards() {
         WebkitUserSelect: "none",
       }}
     >
-      {/* LEFT ARROW */}
       <IconButton
         icon={<ArrowBackIcon />}
         position="absolute"
@@ -308,7 +307,7 @@ export default function AccordionCards() {
         aria-label="Previous Slide"
         {...arrowStyles}
       />
-      {visibleCards.map((card, index) => (
+      {visibleCards.map((card) => (
         <Tooltip
           key={`${card.id}-${activeCard}`}
           label={tooltipText}
@@ -352,7 +351,6 @@ export default function AccordionCards() {
               }) contrast(${activeCard === card.id ? "1.1" : "1"})`,
             }}
           >
-            {/* FRONT SIDE */}
             <Box
               position="absolute"
               width="100%"
@@ -372,7 +370,6 @@ export default function AccordionCards() {
               />
             </Box>
 
-            {/* BACK SIDE */}
             <Box
               position="absolute"
               width="100%"
@@ -395,7 +392,6 @@ export default function AccordionCards() {
           </Box>
         </Tooltip>
       ))}
-      {/* RIGHT ARROW */}
       <IconButton
         icon={<ArrowForwardIcon />}
         position="absolute"

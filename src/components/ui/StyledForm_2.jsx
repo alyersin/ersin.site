@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+// CONTACT FORM WITH VALIDATION AND SUBMISSION
 export default function StyledForm_2({ onClose }) {
   const [formData, setFormData] = useState({
     email: "",
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
+  const [submitStatus, setSubmitStatus] = useState(null);
 
+  // HANDLES INPUT FIELD CHANGES
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -17,6 +19,7 @@ export default function StyledForm_2({ onClose }) {
     }));
   };
 
+  // SUBMITS FORM DATA TO API
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -36,7 +39,6 @@ export default function StyledForm_2({ onClose }) {
       if (response.ok) {
         setSubmitStatus('success');
         setFormData({ email: "", message: "" });
-        // Close modal after 2 seconds
         setTimeout(() => {
           if (onClose) onClose();
         }, 2000);

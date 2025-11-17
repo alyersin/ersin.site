@@ -11,8 +11,7 @@ import {
   ModalContent,
   useDisclosure,
 } from "@chakra-ui/react";
-import ConnectingDots from "../components/ui/Effects/ConnectingDots";
-import { ChevronRightIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronRightIcon, ChevronDownIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import StyledBtn_3 from "@/components/ui/StyledBtn_3";
 import MonitorToggle from "@/components/ui/MonitorToggle";
 import StyledHamburger from "@/components/ui/StyledHamburger";
@@ -20,13 +19,13 @@ import { useState, useEffect, useRef } from "react";
 import Card from "@/components/ui/Card";
 import StyledForm_2 from "@/components/ui/StyledForm_2";
 
+// MAIN HOME PAGE COMPONENT
 export default function Home() {
   const homeRef = useRef(null);
   const workRef = useRef(null);
   const mobileWorkRef = useRef(null);
   const [isLargeScreen, setIsLargeScreen] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 968px)");
@@ -36,11 +35,12 @@ export default function Home() {
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
 
+  // OPENS CONTACT MODAL
   const openModalAndCloseMenu = () => {
-    setIsMenuOpen(false);
     onOpen();
   };
 
+  // SCROLLS TO WORK SECTION
   const scrollToWork = () => {
     if (isLargeScreen) {
       workRef.current?.scrollIntoView({ behavior: "smooth", inline: "start" });
@@ -49,6 +49,7 @@ export default function Home() {
     }
   };
 
+  // SCROLLS TO HOME SECTION
   const scrollToHome = () => {
     homeRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -82,8 +83,6 @@ export default function Home() {
           zIndex="1000"
         >
           <StyledHamburger
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
             onContactClick={openModalAndCloseMenu}
           />
         </Box>
@@ -96,7 +95,6 @@ export default function Home() {
           flexShrink={0}
           overflow="hidden"
         >
-          <ConnectingDots />
           <VStack
             position="absolute"
             top="50%"
@@ -163,7 +161,6 @@ export default function Home() {
           pb={12}
           minHeight="100vh"
         >
-          {/* Info Banner */}
           <Box mb={6} textAlign="center">
             <Box
               display="flex"
@@ -178,8 +175,7 @@ export default function Home() {
               mx="auto"
               border="1px solid rgba(255, 255, 255, 0.2)"
             >
-              <Box
-                as={require("@chakra-ui/icons").InfoOutlineIcon}
+              <InfoOutlineIcon
                 color="purple.200"
                 boxSize={4}
                 mr={2}
@@ -261,8 +257,6 @@ export default function Home() {
                 description="Pizza ordering interface with appetizing design"
               />
             </SimpleGrid>
-
-            {/* <StyledForm_2 /> */}
           </VStack>
         </Box>
       )}

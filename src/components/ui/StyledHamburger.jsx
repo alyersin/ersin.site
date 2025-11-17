@@ -2,14 +2,14 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-export default function StyledHamburger({ onContactClick, closeMenu }) {
+// CIRCULAR HAMBURGER MENU WITH TECH STACK NAVIGATION
+export default function StyledHamburger({ onContactClick }) {
   const [isOpen, setIsOpen] = useState(false);
   const [techStackActive, setTechStackActive] = useState(false);
   const [activeSubTech, setActiveSubTech] = useState(null);
   const [activeTechImage, setActiveTechImage] = useState(null);
 
   const subTechImages = [
-    // Frontend
     [
       { src: "/assets/techstack/htmlcssjs.webp", alt: "HTML/CSS/JS" },
       { src: "/assets/techstack/react.png", alt: "React" },
@@ -18,7 +18,6 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
       { src: "/assets/techstack/git.png", alt: "GIT" },
       { src: "/assets/techstack/rest.png", alt: "RESTapi" },
     ],
-    // Backend
     [
       { src: "/assets/techstack/nodejs.png", alt: "Node.js" },
       { src: "/assets/techstack/expressjs.png", alt: "Express" },
@@ -27,7 +26,6 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
       { src: "/assets/techstack/backend.png", alt: "Socket.io" },
       { src: "/assets/techstack/backend.png", alt: "JWT" },
     ],
-    // Database
     [
       { src: "/assets/techstack/firebase.png", alt: "Firebase" },
       { src: "/assets/techstack/postgresql.png", alt: "PostgreSQL" },
@@ -36,7 +34,6 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
       { src: "/assets/techstack/database.png", alt: "Prisma" },
       { src: "/assets/techstack/database.png", alt: "Mongoose" },
     ],
-    // Server
     [
       { src: "/assets/techstack/docker.png", alt: "Docker" },
       { src: "/assets/techstack/nginx.png", alt: "Nginx" },
@@ -47,6 +44,7 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
     ],
   ];
 
+  // TOGGLES MENU STATE BASED ON CURRENT LEVEL
   const handleToggle = () => {
     if (activeSubTech !== null) {
       setActiveSubTech(null);
@@ -57,26 +55,30 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
     }
   };
 
+  // ACTIVATES TECH STACK MENU
   const handleTechStackClick = (e) => {
     e.preventDefault();
     setTechStackActive(true);
   };
 
+  // OPENS SUB-TECH MENU
   const handleSubTechClick = (idx, img) => (e) => {
     e.preventDefault();
     setActiveSubTech(idx);
     setActiveTechImage(img);
   };
 
+  // CLOSES SUB-TECH MENU
   const handleSubTechCenterClick = (e) => {
     e.preventDefault();
     setActiveSubTech(null);
     setActiveTechImage(null);
   };
 
+  // HANDLES CONTACT BUTTON CLICK
   const handleContactClick = () => {
+    setIsOpen(false);
     onContactClick();
-    setIsMenuOpen(false);
   };
 
   useEffect(() => {
@@ -210,8 +212,7 @@ export default function StyledHamburger({ onContactClick, closeMenu }) {
               className="menu-item red"
               onClick={(e) => {
                 e.preventDefault();
-                closeMenu?.();
-                onContactClick?.();
+                handleContactClick();
               }}
             >
               <i className="fa fa-heart" />
