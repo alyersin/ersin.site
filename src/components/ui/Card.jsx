@@ -1,4 +1,3 @@
-// components/ui/Card.jsx
 "use client";
 
 import {
@@ -15,6 +14,7 @@ import {
 import { motion } from "framer-motion";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 
+// PROJECT CARD COMPONENT WITH HOVER ANIMATIONS
 export default function Card({
   image,
   title,
@@ -27,6 +27,7 @@ export default function Card({
   shadow = "lg",
   category,
 }) {
+  // DETERMINES CATEGORY COLOR BASED ON TITLE
   const getCategoryColor = (title) => {
     if (title.includes("PRODUCTION")) return "green";
     if (title.includes("DESIGN ONLY")) return "orange";
@@ -74,7 +75,6 @@ export default function Card({
         zIndex: 1,
       }}
     >
-      {/* Category Badge */}
       <Flex
         justify="space-between"
         align="flex-start"
@@ -106,7 +106,6 @@ export default function Card({
         </Badge>
       </Flex>
 
-      {/* Image Container */}
       {image && (
         <Box
           position="relative"
@@ -124,7 +123,6 @@ export default function Card({
             transition="transform 0.3s ease"
             _groupHover={{ transform: "scale(1.05)" }}
           />
-          {/* Image Overlay */}
           <Box
             position="absolute"
             top={0}
@@ -139,7 +137,6 @@ export default function Card({
         </Box>
       )}
 
-      {/* Content */}
       <Box px={4} pb={4} position="relative" zIndex={2}>
         <Heading
           size="md"
@@ -164,7 +161,6 @@ export default function Card({
           </Text>
         )}
 
-        {/* Button */}
         {link && (
           <Link href={link} isExternal>
             <Button
@@ -197,7 +193,6 @@ export default function Card({
         )}
       </Box>
 
-      {/* Subtle border glow */}
       <Box
         position="absolute"
         top={0}

@@ -1,5 +1,6 @@
 import React from "react";
 
+// BACK BUTTON WITH ANIMATED HOVER EFFECT
 export default function StyledBtn_1({ onClick }) {
   return (
     <button

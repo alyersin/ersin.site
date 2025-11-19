@@ -9,9 +9,11 @@ import StyledBtn_1 from "./StyledBtn_1";
 
 const MotionBox = motion(Box);
 
+// TOGGLES MONITOR SCREEN STATE
 export default function MonitorToggle({ onBack }) {
   const [isOn, setIsOn] = useState(false);
 
+  // TOGGLES MONITOR ON/OFF STATE
   const toggleScreen = () => {
     setIsOn((prev) => !prev);
   };
@@ -27,23 +29,23 @@ export default function MonitorToggle({ onBack }) {
       position="relative"
       overflow="hidden"
     >
-      {/* MONITOR AND ACCORDION WRAPPER */}
       <Box
         position="relative"
-        width="1200px"
-        height="900px"
+        width={{ base: "90vw", md: "1200px" }}
+        maxWidth="1200px"
+        height={{ base: "67.5vw", md: "900px" }}
+        maxHeight="900px"
         display="flex"
         justifyContent="center"
         alignItems="center"
       >
-        {/* SVG MONITOR */}
         <svg
-          width="1200"
-          height="900"
+          width="100%"
+          height="100%"
           viewBox="0 0 400 300"
+          preserveAspectRatio="xMidYMid meet"
           style={{ position: "absolute" }}
         >
-          {/* FRAME */}
           <rect
             x="50"
             y="50"
@@ -56,7 +58,6 @@ export default function MonitorToggle({ onBack }) {
             strokeWidth="2"
           />
 
-          {/* SCREEn */}
           <motion.rect
             x="60"
             y="60"
@@ -73,15 +74,13 @@ export default function MonitorToggle({ onBack }) {
             transition={{ duration: 1, ease: "easeInOut" }}
           />
 
-          {/* STAND */}
           <rect x="170" y="250" width="60" height="10" fill="#555" />
           <rect x="150" y="260" width="100" height="10" fill="#444" />
         </svg>
 
-        {/* SWITCH */}
         <Box
           position="absolute"
-          top="684px"
+          top={{ base: "80%", md: "75%" }}
           left="50%"
           transform="translateX(-50%)"
           zIndex="2"
@@ -89,7 +88,6 @@ export default function MonitorToggle({ onBack }) {
           <Switch checked={isOn} onChange={toggleScreen} />
         </Box>
 
-        {/* ACCORDION OVERLAY */}
         <AnimatePresence>
           {isOn && (
             <MotionBox
@@ -110,7 +108,6 @@ export default function MonitorToggle({ onBack }) {
         </AnimatePresence>
       </Box>
 
-      {/* BACK BUTTON */}
       <Box mt={2}>
         <StyledBtn_1 onClick={onBack} />
       </Box>

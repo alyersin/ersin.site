@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+// POWER SWITCH TOGGLE WITH GLOW EFFECT
 export default function Switch({ checked, onChange }) {
   return (
     <StyledWrapper>
@@ -51,7 +52,6 @@ const StyledWrapper = styled.div`
   }
 
   .switch {
-    /* Add glowing styles for OFF state (i.e. not checked) */
     box-shadow: 0 0 1px rgb(151, 243, 255) inset,
       0 0 2px rgb(151, 243, 255) inset, 0 0 10px rgb(151, 243, 255) inset,
       0 0 40px rgb(151, 243, 255), 0 0 100px rgb(151, 243, 255),
@@ -68,7 +68,6 @@ const StyledWrapper = styled.div`
     fill: white;
   }
 
-  /* When ON (checked), turn off glow */
   #checkbox:checked + .switch {
     box-shadow: none;
     background-color: rgb(99, 99, 99);

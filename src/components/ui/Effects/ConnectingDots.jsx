@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
+// ANIMATED BACKGROUND WITH INTERACTIVE CONNECTING DOTS
 export default function ConnectingDots() {
   const canvasRef = useRef(null);
   const visibilityRadius = 800;
@@ -19,11 +20,13 @@ export default function ConnectingDots() {
     const revealRadius = 300;
     const maxDotDistance = 150;
 
+    // CALCULATES NUMBER OF DOTS BASED ON SCREEN SIZE
     const getDotCount = () => {
       const count = Math.floor((window.innerWidth * window.innerHeight) / 8000);
       return Math.max(200, Math.min(count, 3000));
     };
 
+    // GENERATES RANDOM COLOR FOR DOTS
     const getRandomColor = () => {
       const lightRed = `rgba(255, ${Math.floor(
         Math.random() * 100
@@ -34,6 +37,7 @@ export default function ConnectingDots() {
       return Math.random() < 0.5 ? lightRed : lightBlue;
     };
 
+    // GENERATES ARRAY OF DOT OBJECTS
     const generateDots = () => {
       dots.length = 0;
       const numDots = getDotCount();
@@ -49,15 +53,15 @@ export default function ConnectingDots() {
       }
     };
 
+    // SETS CANVAS DIMENSIONS TO MATCH WINDOW SIZE
     const setupCanvasSize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     };
 
+    // DRAWS DOTS AND CONNECTIONS ON CANVAS
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
-
-      const visibilityRadius = 800;
 
       dots.forEach((dot) => {
         let alpha = 1;
@@ -131,6 +135,7 @@ export default function ConnectingDots() {
       requestAnimationFrame(draw);
     };
 
+    // HANDLES WINDOW RESIZE EVENT
     const handleResize = () => {
       setupCanvasSize();
       generateDots();
@@ -138,6 +143,7 @@ export default function ConnectingDots() {
 
     handleResize();
 
+    // UPDATES MOUSE POSITION ON MOVE
     const handleMouseMove = (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
