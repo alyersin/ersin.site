@@ -1,0 +1,81 @@
+# Nginx configuration for ersin.home.ro (HTTP ONLY - for initial setup before SSL)
+# Use this temporarily, then run certbot which will update it automatically
+
+# Rate limiting zones
+limit_req_zone $binary_remote_addr zone=api_limit:10m rate=10r/m;
+limit_req_zone $binary_remote_addr zone=general_limit:10m rate=30r/s;
+
+# Upstream Next.js server
+upstream nextjs_backend {
+    server 127.0.0.1:3045;  # Your app is running on port 3045
+    keepalive 64;
+}
+
+# HTTP server (before SSL)
+server {
+    listen 80;
+    listen [::]:80;
+    server_name ersin.home.ro www.ersin.home.ro;
+
+    # Logging
+    access_log /var/log/nginx/ersin.home.ro.access.log;
+    error_log /var/log/nginx/ersin.home.ro.error.log;
+
+    # Max upload size
+    client_max_body_size 10M;
+
+    # Gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css text/xml text/javascript application/json application/javascript application/xml+rss application/rss+xml font/truetype font/opentype application/vnd.ms-fontobject image/svg+xml;
+
+    # Static files caching
+    # Update paths to match your actual directory (e.g., ~/web-apps/ersin-site)
+    location /_next/static/ {
+        alias /home/YOUR_USERNAME/web-apps/ersin-site/.next/static/;
+        expires 365d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location /assets/ {
+        alias /home/YOUR_USERNAME/web-apps/ersin-site/public/assets/;
+        expires 30d;
+        add_header Cache-Control "public";
+    }
+
+    # API routes with rate limiting
+    location /api/ {
+        limit_req zone=api_limit burst=5 nodelay;
+        limit_req_status 429;
+        
+        proxy_pass http://nextjs_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 30s;
+        proxy_connect_timeout 30s;
+    }
+
+    # All other requests
+    location / {
+        limit_req zone=general_limit burst=20 nodelay;
+        
+        proxy_pass http://nextjs_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
