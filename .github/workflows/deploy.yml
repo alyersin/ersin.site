@@ -1,0 +1,75 @@
+name: Deploy to Production Server
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  deploy:
+    name: Deploy to ersin.home.ro
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+        continue-on-error: true # Don't fail deployment on lint errors
+
+      - name: Build application
+        run: npm run build
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            cd /var/www/ersin-site
+            
+            # Pull latest changes
+            git fetch origin
+            git reset --hard origin/main
+            
+            # Install dependencies
+            npm ci --production
+            
+            # Build application
+            npm run build
+            
+            # Restart PM2
+            pm2 restart ersin-site || pm2 start ecosystem.config.js
+            
+            # Show status
+            pm2 status
+            pm2 logs ersin-site --lines 20 --nostream
+
+      - name: Verify deployment
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            # Check if app is running
+            pm2 list | grep ersin-site
+            
+            # Test if app responds
+            sleep 3
+            curl -f http://localhost:3000 || exit 1
+

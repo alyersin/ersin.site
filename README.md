@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ersin's Portfolio Website
 
-## Getting Started
+Personal portfolio website built with Next.js, deployed on a Linux server.
 
-First, run the development server:
+🌐 **Live Site:** [ersin.home.ro](https://ersin.home.ro)
+
+## 🚀 Quick Start
+
+### Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Production Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See **[docs/DEPLOYMENT_INDEX.md](./docs/DEPLOYMENT_INDEX.md)** for complete deployment documentation.
 
-## Learn More
+**Quick Links:**
+- 📖 **[docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)** - Complete deployment guide (includes quick start)
+- 🔄 **[docs/CI_CD_SETUP.md](./docs/CI_CD_SETUP.md)** - Automatic deployments
+- 📧 **[docs/CONTACT_SETUP.md](./docs/CONTACT_SETUP.md)** - Email configuration
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework:** Next.js 15.3.2
+- **UI Library:** Chakra UI
+- **Styling:** Tailwind CSS, Styled Components
+- **Animations:** Framer Motion, React Spring
+- **Email:** Nodemailer
+- **Deployment:** PM2 + Nginx + SSL/TLS
+- **CI/CD:** GitHub Actions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Project Structure
 
-## Deploy on Vercel
+```
+src/
+├── app/              # Next.js app router pages
+├── components/       # React components
+├── data/            # Static data (projects, etc.)
+└── theme.js         # Chakra UI theme config
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔧 Configuration
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **PM2 Config:** `ecosystem.config.js`
+- **Nginx Config:** `nginx/ersin.home.ro.conf`
+- **CI/CD Workflow:** `.github/workflows/deploy.yml`
+- **Environment:** `.env.production` (create from `env.production.example`)
+
+## 📚 Documentation
+
+All deployment documentation is in the [`docs/`](./docs/) folder:
+
+- **[docs/DEPLOYMENT_INDEX.md](./docs/DEPLOYMENT_INDEX.md)** - Start here! Complete documentation index
+- **[docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)** - Step-by-step deployment guide (includes quick start section)
+- **[docs/CI_CD_SETUP.md](./docs/CI_CD_SETUP.md)** - GitHub Actions CI/CD setup
+- **[docs/CONTACT_SETUP.md](./docs/CONTACT_SETUP.md)** - Contact form email setup
+
+## 🚢 Deployment
+
+### Manual Deployment
+```bash
+cd /var/www/ersin-site
+./deploy.sh
+```
+
+### Automatic Deployment (CI/CD)
+Push to `main` branch → GitHub Actions deploys automatically!
+
+See **[docs/CI_CD_SETUP.md](./docs/CI_CD_SETUP.md)** for setup instructions.
+
+## 📝 License
+
+ISC
+
+## 👤 Author
+
+Ersin - [ersin.home.ro](https://ersin.home.ro)

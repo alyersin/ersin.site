@@ -2,6 +2,62 @@
 
 Complete step-by-step guide to deploy your Next.js site on your Linux server.
 
+## 🚀 Quick Start (TL;DR)
+
+If you're experienced and want to deploy quickly, here's the fast track:
+
+```bash
+# 1. Install dependencies
+sudo apt update && sudo apt upgrade -y
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs nginx certbot python3-certbot-nginx git ufw
+sudo npm install -g pm2
+
+# 2. Setup firewall
+sudo ufw allow 22/tcp && sudo ufw allow 80/tcp && sudo ufw allow 443/tcp && sudo ufw enable
+
+# 3. Create app directory
+sudo mkdir -p /var/www/ersin-site /var/log/pm2
+sudo chown -R $USER:$USER /var/www/ersin-site /var/log/pm2
+
+# 4. Clone and setup
+cd /var/www/ersin-site
+git clone https://github.com/alyersin/ersin.site.git .
+npm install --production
+npm run build
+
+# 5. Create .env.production
+nano .env.production
+# Add: NODE_ENV=production, PORT=3000, EMAIL_USER=..., EMAIL_PASS=...
+
+# 6. Start with PM2
+pm2 start ecosystem.config.js
+pm2 save
+pm2 startup  # Follow the command it outputs
+
+# 7. Setup Nginx
+sudo cp nginx/ersin.home.ro.conf /etc/nginx/sites-available/ersin.home.ro
+sudo ln -s /etc/nginx/sites-available/ersin.home.ro /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t && sudo systemctl reload nginx
+
+# 8. Get SSL certificate
+sudo certbot --nginx -d ersin.home.ro -d www.ersin.home.ro
+
+# Done! Visit https://ersin.home.ro
+```
+
+**Pre-deployment checklist:**
+- [ ] Domain `ersin.home.ro` DNS A record points to your server IP
+- [ ] You have SSH access to your server
+- [ ] You have sudo/root access
+- [ ] Gmail App Password generated (for contact form)
+- [ ] Server has at least 1GB RAM and 10GB disk space
+
+**For detailed explanations, continue reading below ↓**
+
+---
+
 ## Prerequisites
 
 - Linux server (Ubuntu/Debian recommended)
@@ -413,6 +469,24 @@ sudo tail -f /var/log/nginx/ersin.home.ro.error.log
 
 ---
 
+## CI/CD Setup (Optional but Recommended)
+
+For automatic deployments when you push to GitHub, see **[CI_CD_SETUP.md](./CI_CD_SETUP.md)**.
+
+This will set up GitHub Actions to automatically:
+- Build your application
+- Deploy to your server on every push to `main`
+- Restart PM2
+- Verify deployment
+
+**Benefits:**
+- ✅ Push code → Auto-deploy (no manual SSH needed)
+- ✅ Consistent deployments
+- ✅ Deployment history in GitHub
+- ✅ Easy rollback
+
+---
+
 ## Support
 
 If you encounter issues:
@@ -420,4 +494,5 @@ If you encounter issues:
 2. Check Nginx logs: `sudo tail -f /var/log/nginx/ersin.home.ro.error.log`
 3. Verify DNS: `dig ersin.home.ro`
 4. Test locally: `curl http://localhost:3000`
+5. For CI/CD issues, see [CI_CD_SETUP.md](./CI_CD_SETUP.md)
 
