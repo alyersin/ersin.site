@@ -17,12 +17,12 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 
 ### Production Deployment
 
-See **[docs/DEPLOYMENT_INDEX.md](./docs/DEPLOYMENT_INDEX.md)** for complete deployment documentation.
-
-**Quick Links:**
+**Documentation:**
 - 📖 **[docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)** - Complete deployment guide (includes quick start)
-- 🔄 **[docs/CI_CD_SETUP.md](./docs/CI_CD_SETUP.md)** - Automatic deployments
+- 🌐 **[docs/DOMAIN_SSL_SETUP.md](./docs/DOMAIN_SSL_SETUP.md)** - Domain & SSL setup
+- 🔄 **[docs/CI_CD_SETUP.md](./docs/CI_CD_SETUP.md)** - Automatic deployments via GitHub Actions
 - 📧 **[docs/CONTACT_SETUP.md](./docs/CONTACT_SETUP.md)** - Email configuration
+- 🔧 **[docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Common issues & fixes
 
 ## 🛠️ Tech Stack
 
@@ -55,10 +55,11 @@ src/
 
 All deployment documentation is in the [`docs/`](./docs/) folder:
 
-- **[docs/DEPLOYMENT_INDEX.md](./docs/DEPLOYMENT_INDEX.md)** - Start here! Complete documentation index
-- **[docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)** - Step-by-step deployment guide (includes quick start section)
+- **[docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)** - Complete deployment guide (start here!)
+- **[docs/DOMAIN_SSL_SETUP.md](./docs/DOMAIN_SSL_SETUP.md)** - Domain & SSL certificate setup
 - **[docs/CI_CD_SETUP.md](./docs/CI_CD_SETUP.md)** - GitHub Actions CI/CD setup
-- **[docs/CONTACT_SETUP.md](./docs/CONTACT_SETUP.md)** - Contact form email setup
+- **[docs/CONTACT_SETUP.md](./docs/CONTACT_SETUP.md)** - Contact form email configuration
+- **[docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Troubleshooting common issues
 
 ## 🚢 Deployment
 
