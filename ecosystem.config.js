@@ -9,8 +9,8 @@ module.exports = {
       exec_mode: 'fork',
       env: {
         NODE_ENV: 'production',
-        PORT: process.env.PORT || 3000,  // Can be overridden via .env.production
-        HOSTNAME: process.env.HOSTNAME || '0.0.0.0',  // Listen on all interfaces
+        PORT: 3045,  // Fixed port to prevent reverting to 3000
+        HOSTNAME: '0.0.0.0',  // Listen on all interfaces
       },
       error_file: (process.env.PM2_LOG_DIR || '/var/log/pm2') + '/ersin-site-error.log',
       out_file: (process.env.PM2_LOG_DIR || '/var/log/pm2') + '/ersin-site-out.log',

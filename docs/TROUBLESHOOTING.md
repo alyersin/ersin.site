@@ -189,21 +189,26 @@ pm2 env 0 | grep PORT
 ```bash
 cd ~/web-apps/ersin-site
 
-# Update .env.production
-nano .env.production
-# Make sure PORT=3045
-
-# Restart PM2
+# Stop PM2
 pm2 delete ersin-site
-set -a && source .env.production && set +a
+
+# Set directory variables
 export PM2_APP_DIR="$HOME/web-apps/ersin-site"
 export PM2_LOG_DIR="$HOME/.pm2/logs"
+
+# Start PM2 (port is now hardcoded to 3045 in ecosystem.config.js)
 pm2 start ecosystem.config.js --update-env
 
+# Save PM2 config
+pm2 save
+
 # Verify
+sleep 3
 pm2 logs ersin-site --lines 5 | grep -i local
 sudo netstat -tlnp | grep 3045
 ```
+
+**Note:** Port 3045 is now hardcoded in `ecosystem.config.js`, so it won't revert to 3000.
 
 ---
 
