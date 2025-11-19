@@ -91,16 +91,35 @@ jobs:
               git reset --hard origin/main
             fi
             
-            # Install dependencies (use npm install if package-lock.json doesn't exist)
+            # Install dependencies (need ALL dependencies for build, not just production)
             if [ -f "package-lock.json" ]; then
-              npm ci --production
+              echo "=== Installing all dependencies (needed for build) ==="
+              npm ci
             else
-              echo "package-lock.json not found, using npm install"
-              npm install --production
+              echo "=== package-lock.json not found, using npm install ==="
+              npm install
+            fi
+            
+            # Verify dependencies installed
+            if [ ! -d "node_modules" ] || [ ! -f "node_modules/.bin/next" ]; then
+              echo "ERROR: Dependencies not installed correctly!"
+              exit 1
             fi
             
             # Build application
+            echo "=== Building application ==="
             npm run build
+            
+            # Verify build was created
+            if [ ! -d ".next" ]; then
+              echo "ERROR: Build failed! .next directory not found!"
+              echo "=== Build output ==="
+              npm run build 2>&1
+              exit 1
+            fi
+            
+            echo "=== Build successful! .next directory exists ==="
+            ls -la .next | head -10
             
             # Stop existing process if running
             pm2 delete ersin-site 2>/dev/null || true
@@ -112,8 +131,26 @@ jobs:
               export PM2_LOG_DIR="$LOG_DIR"
             fi
             
+            # Load environment variables from .env.production if it exists
+            if [ -f ".env.production" ]; then
+              echo "=== Loading .env.production ==="
+              set -a
+              source .env.production
+              set +a
+              echo "PORT is set to: ${PORT:-3000}"
+            else
+              echo "WARNING: .env.production not found!"
+            fi
+            
+            # Verify .next exists before starting
+            if [ ! -d ".next" ]; then
+              echo "ERROR: .next directory still doesn't exist! Cannot start PM2."
+              exit 1
+            fi
+            
             # Start PM2
-            pm2 start ecosystem.config.js
+            echo "=== Starting PM2 ==="
+            pm2 start ecosystem.config.js --update-env
             
             # Wait for app to start
             sleep 5
