@@ -191,11 +191,21 @@ jobs:
               exit 1
             fi
             
-            # Get the port from PM2 env or default to 3000
-            APP_PORT=$(pm2 jlist | grep -o '"PORT":"[0-9]*"' | head -1 | cut -d'"' -f4 || echo "3000")
-            if [ -z "$APP_PORT" ] || [ "$APP_PORT" = "null" ]; then
-              APP_PORT="3000"
+            # Get the port from PM2 logs (most reliable method)
+            # PM2 logs show: "Local: http://localhost:3045"
+            APP_PORT=$(pm2 logs ersin-site --lines 10 --nostream | grep -o "Local:.*localhost:[0-9]*" | tail -1 | grep -o "[0-9]*" | head -1 || echo "")
+            
+            # If that fails, try PM2 env
+            if [ -z "$APP_PORT" ]; then
+              APP_PORT=$(pm2 jlist | grep -o '"PORT":"[0-9]*"' | head -1 | cut -d'"' -f4 || echo "")
             fi
+            
+            # Default to 3045 (hardcoded in ecosystem.config.js)
+            if [ -z "$APP_PORT" ] || [ "$APP_PORT" = "null" ]; then
+              APP_PORT="3045"
+            fi
+            
+            echo "=== Detected app port: $APP_PORT ==="
             
             echo "=== Checking port $APP_PORT ==="
             netstat -tlnp | grep "$APP_PORT" || ss -tlnp | grep "$APP_PORT" || echo "Port $APP_PORT not found in netstat/ss"
