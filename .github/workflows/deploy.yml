@@ -39,11 +39,26 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           script: |
+            # Create directory if it doesn't exist
+            sudo mkdir -p /var/www/ersin-site
+            sudo chown -R $USER:$USER /var/www/ersin-site
+            
+            # Create log directory if it doesn't exist
+            sudo mkdir -p /var/log/pm2
+            sudo chown -R $USER:$USER /var/log/pm2
+            
             cd /var/www/ersin-site
             
-            # Pull latest changes
-            git fetch origin
-            git reset --hard origin/main
+            # Check if this is first-time deployment
+            if [ ! -d ".git" ]; then
+              echo "=== First-time deployment: Cloning repository ==="
+              git clone https://github.com/alyersin/ersin.site.git .
+            else
+              echo "=== Updating existing deployment ==="
+              # Pull latest changes
+              git fetch origin
+              git reset --hard origin/main
+            fi
             
             # Install dependencies
             npm ci --production
@@ -51,12 +66,29 @@ jobs:
             # Build application
             npm run build
             
-            # Restart PM2
-            pm2 restart ersin-site || pm2 start ecosystem.config.js
+            # Stop existing process if running
+            pm2 delete ersin-site 2>/dev/null || true
+            
+            # Start PM2
+            pm2 start ecosystem.config.js
+            
+            # Wait for app to start
+            sleep 5
             
             # Show status
             pm2 status
-            pm2 logs ersin-site --lines 20 --nostream
+            pm2 list
+            
+            # Show recent logs
+            echo "=== PM2 Logs ==="
+            pm2 logs ersin-site --lines 30 --nostream || true
+            
+            # Check if process is running
+            if ! pm2 list | grep -q "ersin-site.*online"; then
+              echo "ERROR: Application failed to start!"
+              pm2 logs ersin-site --lines 50 --nostream
+              exit 1
+            fi
 
       - name: Verify deployment
         uses: appleboy/ssh-action@v1.0.3
@@ -66,10 +98,35 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           script: |
-            # Check if app is running
-            pm2 list | grep ersin-site
+            echo "=== Checking PM2 Status ==="
+            pm2 list
             
-            # Test if app responds
-            sleep 3
-            curl -f http://localhost:3000 || exit 1
+            echo "=== Checking if app is running ==="
+            if ! pm2 list | grep -q "ersin-site.*online"; then
+              echo "ERROR: Application is not online!"
+              echo "=== PM2 Error Logs ==="
+              pm2 logs ersin-site --err --lines 50 --nostream || true
+              echo "=== PM2 Output Logs ==="
+              pm2 logs ersin-site --out --lines 50 --nostream || true
+              exit 1
+            fi
+            
+            echo "=== Checking port 3000 ==="
+            netstat -tlnp | grep 3000 || ss -tlnp | grep 3000 || echo "Port 3000 not found in netstat/ss"
+            
+            echo "=== Testing application response ==="
+            # Wait a bit more for app to fully start
+            sleep 5
+            
+            # Try curl with verbose output
+            if curl -f -v http://localhost:3000; then
+              echo "✅ Application is responding!"
+            else
+              echo "❌ Application is not responding on port 3000"
+              echo "=== PM2 Logs (last 50 lines) ==="
+              pm2 logs ersin-site --lines 50 --nostream || true
+              echo "=== Checking process ==="
+              ps aux | grep -i next || ps aux | grep node
+              exit 1
+            fi
 
