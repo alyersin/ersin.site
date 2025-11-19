@@ -39,19 +39,50 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           script: |
+            # Use custom directory if it exists, otherwise try standard locations
+            # Priority: 1) Custom path 2) /var/www 3) Home directory
+            
+            if [ -d "$HOME/web-apps/ersin-site" ] || [ -d "/home/$USER/web-apps/ersin-site" ]; then
+              # Use existing custom directory
+              if [ -d "$HOME/web-apps/ersin-site" ]; then
+                APP_DIR="$HOME/web-apps/ersin-site"
+              else
+                APP_DIR="/home/$USER/web-apps/ersin-site"
+              fi
+              LOG_DIR="$HOME/.pm2/logs"
+              echo "=== Using existing custom directory: $APP_DIR ==="
+            elif sudo -n true 2>/dev/null || [ -w /var/www ] 2>/dev/null; then
+              # Try /var/www (standard location)
+              APP_DIR="/var/www/ersin-site"
+              LOG_DIR="/var/log/pm2"
+              echo "=== Using /var/www/ersin-site ==="
+              sudo mkdir -p "$APP_DIR" 2>/dev/null || mkdir -p "$APP_DIR"
+              sudo chown -R $USER:$USER "$APP_DIR" 2>/dev/null || true
+              sudo mkdir -p "$LOG_DIR" 2>/dev/null || mkdir -p "$LOG_DIR"
+              sudo chown -R $USER:$USER "$LOG_DIR" 2>/dev/null || true
+            else
+              # Fallback to home directory
+              APP_DIR="$HOME/web-apps/ersin-site"
+              LOG_DIR="$HOME/.pm2/logs"
+              echo "=== Using home directory: $APP_DIR ==="
+              mkdir -p "$APP_DIR"
+              mkdir -p "$LOG_DIR"
+            fi
+            
             # Create directory if it doesn't exist
-            sudo mkdir -p /var/www/ersin-site
-            sudo chown -R $USER:$USER /var/www/ersin-site
+            mkdir -p "$APP_DIR"
+            mkdir -p "$LOG_DIR"
             
-            # Create log directory if it doesn't exist
-            sudo mkdir -p /var/log/pm2
-            sudo chown -R $USER:$USER /var/log/pm2
-            
-            cd /var/www/ersin-site
+            cd "$APP_DIR" || exit 1
             
             # Check if this is first-time deployment
             if [ ! -d ".git" ]; then
               echo "=== First-time deployment: Cloning repository ==="
+              # Remove directory contents if it exists but isn't a git repo
+              if [ "$(ls -A $APP_DIR 2>/dev/null)" ]; then
+                echo "Directory exists but is not a git repo, cleaning..."
+                rm -rf ./* .[^.]* 2>/dev/null || true
+              fi
               git clone https://github.com/alyersin/ersin.site.git .
             else
               echo "=== Updating existing deployment ==="
@@ -60,14 +91,26 @@ jobs:
               git reset --hard origin/main
             fi
             
-            # Install dependencies
-            npm ci --production
+            # Install dependencies (use npm install if package-lock.json doesn't exist)
+            if [ -f "package-lock.json" ]; then
+              npm ci --production
+            else
+              echo "package-lock.json not found, using npm install"
+              npm install --production
+            fi
             
             # Build application
             npm run build
             
             # Stop existing process if running
             pm2 delete ersin-site 2>/dev/null || true
+            
+            # Start PM2 with environment variables for custom directory
+            if [ "$APP_DIR" != "/var/www/ersin-site" ]; then
+              echo "=== Using custom directory: $APP_DIR ==="
+              export PM2_APP_DIR="$APP_DIR"
+              export PM2_LOG_DIR="$LOG_DIR"
+            fi
             
             # Start PM2
             pm2 start ecosystem.config.js
@@ -111,22 +154,30 @@ jobs:
               exit 1
             fi
             
-            echo "=== Checking port 3000 ==="
-            netstat -tlnp | grep 3000 || ss -tlnp | grep 3000 || echo "Port 3000 not found in netstat/ss"
+            # Get the port from PM2 env or default to 3000
+            APP_PORT=$(pm2 jlist | grep -o '"PORT":"[0-9]*"' | head -1 | cut -d'"' -f4 || echo "3000")
+            if [ -z "$APP_PORT" ] || [ "$APP_PORT" = "null" ]; then
+              APP_PORT="3000"
+            fi
+            
+            echo "=== Checking port $APP_PORT ==="
+            netstat -tlnp | grep "$APP_PORT" || ss -tlnp | grep "$APP_PORT" || echo "Port $APP_PORT not found in netstat/ss"
             
             echo "=== Testing application response ==="
             # Wait a bit more for app to fully start
             sleep 5
             
             # Try curl with verbose output
-            if curl -f -v http://localhost:3000; then
-              echo "✅ Application is responding!"
+            if curl -f -v "http://localhost:$APP_PORT"; then
+              echo "✅ Application is responding on port $APP_PORT!"
             else
-              echo "❌ Application is not responding on port 3000"
+              echo "❌ Application is not responding on port $APP_PORT"
               echo "=== PM2 Logs (last 50 lines) ==="
               pm2 logs ersin-site --lines 50 --nostream || true
               echo "=== Checking process ==="
               ps aux | grep -i next || ps aux | grep node
+              echo "=== Checking what ports are in use ==="
+              netstat -tlnp | grep -E '300[0-9]|400[0-9]' || ss -tlnp | grep -E '300[0-9]|400[0-9]'
               exit 1
             fi
 
