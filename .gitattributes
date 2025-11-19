@@ -1,7 +1,8 @@
 # Encrypt docs folder with git-crypt
 # To use: git-crypt init, then commit this file
 # 
-# Encrypt all files in docs/ except the encryption guide itself
+# Encrypt all files in docs/ except the encryption/decryption guides
 docs/*.md filter=git-crypt diff=git-crypt
 !docs/ENCRYPT_DOCS.md
+!docs/DECRYPT_DOCS.md
 

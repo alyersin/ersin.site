@@ -55,14 +55,15 @@ src/
 
 All deployment documentation is in the [`docs/`](./docs/) folder:
 
-> **🔒 Note:** Documentation files are encrypted in this public repo. See [docs/ENCRYPT_DOCS.md](./docs/ENCRYPT_DOCS.md) for decryption instructions.
+> **🔒 Note:** Documentation files are encrypted in this public repo. See [docs/DECRYPT_DOCS.md](./docs/DECRYPT_DOCS.md) for decryption instructions.
 
 - **[docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)** - **START HERE!** Complete guide from Git Push to SSL Certificate (all steps, ports, fixes included)
 - **[docs/CI_CD_SETUP.md](./docs/CI_CD_SETUP.md)** - GitHub Actions CI/CD setup
 - **[docs/CONTACT_SETUP.md](./docs/CONTACT_SETUP.md)** - Contact form email configuration
 - **[docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Troubleshooting common issues
 - **[docs/SSL_VS_TLS_EXPLAINED.md](./docs/SSL_VS_TLS_EXPLAINED.md)** - SSL vs TLS explained
-- **[docs/ENCRYPT_DOCS.md](./docs/ENCRYPT_DOCS.md)** - How to decrypt documentation files
+- **[docs/DECRYPT_DOCS.md](./docs/DECRYPT_DOCS.md)** - 🔓 How to decrypt documentation files (read this first!)
+- **[docs/ENCRYPT_DOCS.md](./docs/ENCRYPT_DOCS.md)** - How to encrypt documentation files
 
 ## 🚢 Deployment
 
