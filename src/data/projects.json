@@ -20,7 +20,7 @@
     "title": "Mini-Scoala",
     "frontImage": "/assets/projects/mini-scoala.avif",
     "backImage": "/assets/projects/backImage-2.avif",
-    "frontHref": "http://5.14.11.22:3025/",
+    "frontHref": "http://5.14.83.104:3025/",
     "backHref": " "
   },
   {
@@ -28,7 +28,7 @@
     "title": "MCS-Workload platform",
     "frontImage": "/assets/projects/mcs-workload.png",
     "backImage": "/assets/projects/backImage-2.avif",
-    "frontHref": "https://mcs-workload.vercel.app/",
+    "frontHref": "http://5.14.52.104:3090/",
     "backHref": "https://github.com/alyersin/MCS-Workload.git"
   },
   {
@@ -38,15 +38,6 @@
     "backImage": "/assets/projects/backImage-2.avif",  
     "frontHref": "https://career-sketch.vercel.app/",
     "backHref": "https://github.com/alyersin/career-sketch.git"
-  },
-
-  {
-    "id": 6,
-    "title": "TECH-BLOG - DESIGN ONLY",
-    "frontImage": "/assets/projects/techblog.avif",
-    "backImage": "/assets/projects/backImage-2.avif",
-    "frontHref": "https://tech-blog-alpha-fawn.vercel.app/",
-    "backHref": "https://github.com/alyersin/TechBlog-NextJS.git"
   },
   {
     "id": 7,
