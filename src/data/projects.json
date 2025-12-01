@@ -25,7 +25,7 @@
   },
   {
     "id": 4,
-    "title": "MCS-Workload platform",
+    "title": "MCS-Workload platform", 
     "frontImage": "/assets/projects/mcs-workload.png",
     "backImage": "/assets/projects/backImage-2.avif",
     "frontHref": "http://5.14.52.104:3090/",
@@ -40,7 +40,7 @@
     "backHref": "https://github.com/alyersin/career-sketch.git"
   },
   {
-    "id": 7,
+    "id": 6,
     "title": "Coming Soon",
     "frontImage": "/assets/projects/frontImage-1.jpg",
     "backImage": "/assets/projects/backImage-5.avif",
@@ -48,7 +48,7 @@
     "backHref": ""
   },
   { 
-    "id": 8,
+    "id": 7,
     "title": "SAO-MARCO-PIZZA - DESIGN ONLY",
     "frontImage": "/assets/projects/sao-marco-pizza.avif",
     "backImage": "/assets/projects/backImage-2.avif",
